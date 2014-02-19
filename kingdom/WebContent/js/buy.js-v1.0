@@ -1,0 +1,74 @@
+﻿
+//表示当前选择的是不是10年以上
+var price_flag = false;
+var price = 180;
+var new_total_price = 180;
+var buy_num = 3;
+var year = 1;
+/***
+*obj:当前点击的对象
+*price:价格
+**/
+function setUsers(obj,price_str,buyNum){
+	$("#users").children("span").each(function(){
+		$(this).attr("class","userN");
+	});
+	buy_num = buyNum;
+	$(obj).attr("class","userS");
+	price = price_str;
+	
+	//表示用户选择的是10年以上按钮
+	if("0" == price_str){
+	
+		$("#newPrice").html("面议");
+		
+		$("#btn_buy").hide();
+		
+		price_flag = true;
+		
+	}else{
+		
+		$("#btn_buy").show();
+	
+		setPrice();
+		
+		price_flag = false;
+		
+	}
+	
+	
+	
+}
+
+
+function setYears(obj,years){
+	$("#year_index").val(years);
+	$("#years").children("span").each(function(){
+		$(this).attr("class","userN");
+	});
+	$(obj).attr("class","userS");
+	
+	year = years;
+	if(!price_flag){
+		setPrice();
+	}
+
+}
+
+function setPrice(){
+	new_total_price = parseFloat(price) * parseInt(year);
+	$("#newPrice").html("￥" + new_total_price + ".00");
+
+}
+
+/**
+*点击购买按钮
+**/
+function buy(){
+	var condition_str = location.search.replace("?","&");
+	if(condition_str.indexOf("contactid") < 0){
+		condition_str= "";
+	}
+	var buyUrl = 'http://pm.joyinwise.com/login/doinit.htm?userNum='+buy_num+'&proYears='+year+'&proSum='+new_total_price + condition_str;
+	window.location.href = buyUrl;
+}

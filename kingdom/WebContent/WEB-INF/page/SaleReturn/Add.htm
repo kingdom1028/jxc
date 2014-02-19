@@ -1,0 +1,1132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>智慧商贸
+销售退货单    </title>
+    <script src="/Content/jquery-easyui/jquery-1.7.2.min.js?v2.9.5" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="/Content/themes/default/css/style.css?v2.9.5" />
+    <link rel="stylesheet" type="text/css" href="/Content/jquery-easyui/themes/default/easyui.css?v2.9.5" />
+    <link rel="stylesheet" type="text/css" href="/Content/jquery-easyui/themes/icon.css?v2.9.5" />
+    <script src="/Scripts/jquery.validate-1.11.1.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/jquery.validate.unobtrusive.min.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/modernizr-1.7.min.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Content/My97DatePicker/WdatePicker.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/PropertyManager.js?v2.9.5" type="text/javascript"></script> 
+    <script src="/Scripts/SelectProducts.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/GetState.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Content/jquery-easyui/jquery.easyui.min.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/PERM.js?2013?v2.9.5" type="text/javascript"></script>
+    <script type="text/javascript" src="/Scripts/jquery.unobtrusive-ajax.min.js?v2.9.5"></script>
+    <script src="/Scripts/MVCPage.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/jquery_validator_message_cn.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/PageLoading.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/ChinesePY.js?v2.9.5" type="text/javascript"></script> 
+    <!--PNG透明-->
+    <!--[if lte IE 6]>
+    <script src="/Scripts/DD_belatedPNG_0.0.8a.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            DD_belatedPNG.fix('*');
+        </script>
+    <![endif]-->
+</head>
+<body>
+    <div id="loading"></div>
+    <table style="min-width: 882px;" width="100%" border="0" height="610" cellspacing="0" cellpadding="0">
+        <tr>
+            <td valign="top" bgcolor="#e6e6e8" class="main">
+                <script src="/Scripts/jquery.autocomplete.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    //返回
+    function btnReturn() {
+        window.location.href = "/SaleReturn/List";
+    }
+</script>
+
+<form action="/SaleReturn/Save" method="post"><input data-val="true" data-val-required="The ReturnId field is required." id="ReturnId" name="ReturnId" type="hidden" value="00000000-0000-0000-0000-000000000000" /><input data-val="true" data-val-number="字段 IsToList 必须是一个数字。" data-val-required="The IsToList field is required." id="IsToList" name="IsToList" type="hidden" value="0" /><input data-val="true" data-val-number="字段 IsPrint 必须是一个数字。" data-val-required="The IsPrint field is required." id="IsPrint" name="IsPrint" type="hidden" value="0" /><input data-val="true" data-val-required="请选择销售单" id="SaleId" name="SaleId" type="hidden" value="" /><input data-val="true" data-val-required="请选择仓库" id="WarehouseId" name="WarehouseId" type="hidden" value="" /><input id="SaleNo" name="SaleNo" type="hidden" value="" /><input data-val="true" data-val-required="The 客户 field is required." id="ClientId" name="ClientId" type="hidden" value="00000000-0000-0000-0000-000000000000" />    <table width="100%" border="0" cellspacing="0" cellpadding="0" height="500">
+        <tr>
+            <td valign="top">
+                <div class="buttonArea">
+                    <div class="left">
+                        <a class="button blueButton" onclick="SaveData();">保存并新增</a><a class="button" onclick="SaveDataToList();">保存</a>
+                    </div>
+                    <!-- left -->
+                    <div class="right">
+                        <a class="button greenButton" onclick="parent.childAddTab('销售退货历史','/SaleReturn/List','慧管货')">历史单据</a>
+                    </div>
+                    <!-- right -->
+                </div>
+                <!-- buttonArea -->
+                <div class="clear height10"></div>
+                <div class="shadowBoxWhite receipts">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="5" class="title">
+                        <tr>
+                            <td width="30%" height="50">&nbsp;</td>
+                            <td width="40%" align="center" valign="top" class="text">销售退货单</td>
+                            <td width="30%" align="right" valign="bottom" class="font999" style="padding-bottom: 20px;">单据编号：<input class="codeEdit" id="ReturnNo" name="ReturnNo" onchange="calReturnNo()" type="text" value="XTD20140215005" /></td>
+                        </tr>
+                    </table>
+                    <div id="spanSelectSale">
+                        <p>&nbsp;</p>
+                        <p align="center">
+                            <img src="../../Content/themes/default/images/nodata_return.png" />
+                        </p>
+                        <p align="center" class="fontNodata">请先关联一个销售单</p>
+                        <p align="center"><a class="button blueButton" onclick="selSaleNo(1)">关联销售单</a></p>
+                        <p>&nbsp;</p>
+                    </div>
+                    <div id="spanReturnBody" style="display: none;">
+                        <div class="baseData">
+                            <div class="fl">
+                                <div class="fl">
+                                    <span>客户：<span id="spanClient"></span></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span>销售单：<span id="spanSaleNo"></span></span>&nbsp;&nbsp;
+                                    <a class="choseGoods" onclick="selSaleNo(2)">重新选择</a> &nbsp;&nbsp;
+                                    <span>入库仓库：<span id="spanWare"></span></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span>是否打印</span>
+                                    <input type="checkbox" name="chkPrint" id="chkPrint" />&nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+                            </div>
+                            <div class="fr">
+                                <table>
+                                    <tr>
+                                        <td>经手人</td>
+                                        <td><select class="inputSelect" data-val="true" data-val-required="请选择经手人" id="SaleUser" name="SaleUser"><option selected="selected" value="18cb32bc-f5dd-4704-870b-26bbad60006e">管理员</option>
+</select> </td>
+                                        <td>业务日期</td>
+                                        <td>
+                                <input id="TheLstBalDate" name="TheLstBalDate" type="hidden" value="1900-01-01" />
+                                <input class="inputText data" data-val="true" data-val-required="The 退货日期 field is required." id="ReturnDate" name="ReturnDate" onClick="WdatePicker({minDate:&#39;#F{$dp.$D(\&#39;TheLstBalDate\&#39;)}&#39;})" readonly="true" size="12" type="text" value="2014-02-15" /></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="clear height10"></div>
+                        <div class="tableDiv">
+                            <ul style="display: none;">
+                                <li id="SNLiTemp" onmousemove="$(this).find('.delLite').show();$(this).find('.num').hide()"
+                                    onmouseout="$(this).find('.delLite').hide();$(this).find('.num').show()">
+                                    <span class="snNum">
+                                        <span class="num" style="display: block;">1</span>
+                                        <div class="delLite" style="margin-top: 5px; display: none;" onclick="deleteSN(this)"></div>
+                                    </span>
+                                    <span class="snText"></span>
+                                </li>
+                            </ul>
+                            <table width="100%" border="0" cellspacing="1" cellpadding="5" id="tabProducts">
+                                <tr>
+                                    <th width="60" height="60" align="center" valign="middle">序号</th>
+                                    <th align="left" valign="middle">商品名称/规格</th>
+                                    <th width="150" align="center" valign="middle">商品编号</th>
+                                    <th width="90" align="center" valign="middle">单价(元)</th>
+                                    <th width="65" align="center" valign="middle">数量</th>
+                                    <th width="50" align="center" valign="middle">单位</th>
+                                    <th width="100" align="center" valign="middle">
+                                        <p>金额(元)</p>
+                                    </th>
+                                    <th width="80" align="left" valign="middle">备注</th>
+                                </tr>
+                                <tr id="trTmp" style="display: none;">
+                                    <td align="center" valign="middle" bgcolor="#FFFFFF">
+                                        <span id="orderdiv" class="num"></span>
+                                        <span class="actionArea">
+                                            <a href="javascript:;" class="delLite" onclick="deleteRow(this);"></a></span></td>
+                                    <td align="left" valign="middle" bgcolor="#FFFFFF">
+                                        <table width="100%" cellpadding="0" cellspacing="0" border="0" class="chose">
+                                            <tr>
+                                                <td>
+                                                    <input style="text-align: left;" type="text" class="receiptsInputText" autocomplete="true" name="showProductName" /></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td align="left" valign="middle" bgcolor="#FFFFFF">
+                                        <input type="hidden" name="hidProductId" />
+                                        <input type="text" class="receiptsInputText" style="width: 145px;" autocomplete="true" name="showProductCode" /></td>
+                                    <td align="center" valign="middle" bgcolor="#FFFFFF">
+                                        <input type="text" class="receiptsInputText" style="width: 80px;" name="ReturnPrice" onchange="calSaleAmt(this)" />
+                                        <input type="hidden" name="hidReturnPrice" />
+
+                                    </td>
+                                    <td align="center" valign="middle" bgcolor="#FFFFFF">
+                                        <input type="text" class="receiptsInputText" style="width: 40px;" name="ReturnCount" onchange="calSaleAmt(this)" />
+                                        <a class="sn" style="display: none;" onmousemove="$(this).find('.snList').show()" onmouseout="$(this).find('.snList').hide()">
+                                            <div class="snList" style="display: none;">
+                                                <ul>
+                                                </ul>
+                                                <div class="back">
+                                                    <div class="button" style="white-space:nowrap; *margin-left:30px;" onclick="returnAllSN(this)">还原所有删除项</div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <a href="javascript:;" name="aSingleSN" style="display: none;" onclick="openSn(this.parentNode.parentNode)" class="sn"></a>
+                                        <input type="hidden" name="hidReturnCount" />
+                                        <input type="hidden" name="hidOldSerialId" />
+                                        <input type="hidden" name="hidOldSerialNo" />
+                                        <input type="hidden" name="hidSerialId" />
+
+                                            <input type="hidden" name="hidRowId" />
+                                            <input type="hidden" name="hidSerialNo" onchange="SetWarehouseStock(this)" />
+                                            <input type="hidden" name="hidSerialRemarks"/>
+                                    </td>
+                                    <td align="center" valign="middle" bgcolor="#FFFFFF">
+                                        <input type="text" class="receiptsInputText" style="width: 40px;" name="UnitName" />
+                                        <input type="hidden" name="HidUnitCode" />
+                                        <input type="hidden" name="HidIsDecimal" value="1" /></td>
+                                    <td align="center" valign="middle" bgcolor="#FFFFFF">
+                                        <input type="text" class="receiptsInputText" name="EachReturnAmt" style="width: 90px;" onchange="calReturnPrice(this)" /></td>
+                                        <td align="center" valign="middle" bgcolor="#FFFFFF" style="display: none">
+                                            <input type="hidden" name="EachTaxRate" /></td>
+                                        <td align="center" valign="middle" bgcolor="#FFFFFF" style="display: none">
+                                            <input type="hidden" name="EachAfterTaxAmt" /></td>
+                                    <td width="80" align="left" valign="middle" bgcolor="#FFFFFF">
+                                        <input style="text-align: left; width: 70px" type="text" class="receiptsInputText" name="EachReturnRemark" /></td>
+                                </tr>
+                                <tr id="total">
+                                    <td width="60" align="center" valign="middle" bgcolor="#FFFFFF" class="font14">合计</td>
+                                    <td align="center" valign="middle" bgcolor="#FFFFFF"></td>
+                                    <td width="150" align="left" valign="middle" bgcolor="#FFFFFF"></td>
+                                    <td width="90" align="center" valign="middle" bgcolor="#FFFFFF"></td>
+                                    <td width="50" align="center" valign="middle" bgcolor="#FFFFFF"><span id="spanTotalCount"></span></td>
+                                    <td width="50" align="center" valign="middle" bgcolor="#FFFFFF"></td>
+                                    <td width="100" align="center" valign="middle" bgcolor="#FFFFFF"><span class="fontRed">￥</span><span class=" font18 fontRed">
+                                        <input data-val="true" data-val-number="字段 金额 必须是一个数字。" data-val-range="数值超出合理的范围" data-val-range-max="9999999999" data-val-range-min="0" data-val-regex="金额格式不正确。" data-val-regex-pattern="^(-?\d+)(\.\d+)?$" data-val-required="The 金额 field is required." id="PayAmt" name="PayAmt" onclick="$(this).blur()" readonly="true" size="12" style="width:70px;color:Red;background-color:transparent;" type="text" value="0" /></span></td>
+                                    <td width="80" align="center" valign="middle" bgcolor="#FFFFFF"></td>
+                                </tr>
+                                <tr>
+
+                                        <td width="60" valign="middle" align="center" bgcolor="#FFFFFF" class="font14">备注</td>
+                                        <td bgcolor="#FFFFFF">
+                                            <textarea class="receiptsInputText textl" cols="20" id="SaleRemark" name="SaleRemark" rows="2" style="height:20px;text-align:left">
+</textarea>　</td>
+                                        <td colspan="5" bgcolor="#FFFFFF">
+                                            <table width="100%" border="0" cellspacing="0" cellpadding="3">
+                                                <tr style="display: none;">
+                                                    <td width="100">折 扣 率：</td>
+                                                    <td width="110">
+                                                        <input class="inputBorder" data-val="true" data-val-number="字段 DiscountRate 必须是一个数字。" data-val-range="数值超出合理的范围" data-val-range-max="9999999999" data-val-range-min="0" data-val-regex="折扣率格式不正确。" data-val-regex-pattern="^(-?\d+)(\.\d+)?$" id="DiscountRate" name="DiscountRate" onchange="calDiscountAmt()" size="8" type="text" value="100" />
+                                                        %</td>
+                                                    <td width="60">折后应收：</td>
+                                                    <td>
+                                                        <input class="inputBorder" data-val="true" data-val-number="字段 DisCountAmt 必须是一个数字。" data-val-range="数值超出合理的范围" data-val-range-max="9999999999" data-val-range-min="0" data-val-regex="折后应付金额格式不正确。" data-val-regex-pattern="^(-?\d+)(\.\d+)?$" id="DisCountAmt" name="DisCountAmt" onchange="calDiscountRate()" size="8" type="text" value="0" />
+                                                        元</td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="right">结算方式：</td>
+                                                    <td>
+                                                        <select data-val="true" data-val-required="请选择收款账户" id="AccountId" name="AccountId" style="width:100px;"><option selected="selected" value="ad931a26-b62e-4073-aaca-1d9d6e7e0990">现金</option>
+<option value="0028aa61-24c8-4cd5-87ef-a4f090d72b32">1002001</option>
+</select></td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="right">其他费用：</td>
+                                                    <td><input class="inputBorder" data-val="true" data-val-number="字段 OtherFee 必须是一个数字。" data-val-regex="其他费用格式不正确。" data-val-regex-pattern="^(-?\d+)(\.\d+)?$" data-val-required="请输入本次其他费用" id="OtherFee" name="OtherFee" onchange="calDiscountAmt()" size="8" type="text" value="0" />
+                                                        元</td>
+                                                    <td align="right">应退金额：</td>
+                                                    <td>
+                                                        <span id="spanFAReceAmt">0</span>
+                                                        <input data-val="true" data-val-number="字段 FAReceAmt 必须是一个数字。" data-val-range="数值超出合理的范围" data-val-range-max="9999999999" data-val-range-min="0" data-val-regex="应退金额金额格式不正确。" data-val-regex-pattern="^(-?\d+)(\.\d+)?$" id="FAReceAmt" name="FAReceAmt" type="hidden" value="0" />
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    <td bgcolor="#FFFFFF">
+                                        <div class="font16 fontOrange" style="line-height: 25px;">本次退款：</div>
+                                        <input class="inputBorder" data-val="true" data-val-number="字段 RealPayAmt 必须是一个数字。" data-val-range="数值超出合理的范围" data-val-range-max="9999999999" data-val-range-min="0" data-val-regex="实付金额格式不正确。" data-val-regex-pattern="^(-?\d+)(\.\d+)?$" id="RealPayAmt" name="RealPayAmt" size="10" type="text" value="0" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <!-- tableDiv -->
+                        <div class="bottomButtonArea">
+                            <div class="left font999">制单人：管理员&nbsp;&nbsp;&nbsp;&nbsp;制单时间：2014-02-15 12:24:31</div>
+                            <div class="right">
+                                <a class="button" onclick="closethistab('新增销售退货');">取消</a>
+                                <a class="button" onclick="SaveDataToList();">保存</a>
+                                <a class="button blueButton" onclick="SaveData();">保存并新增</a>
+                                
+                            </div>
+                        </div>
+                        <!-- buttonArea -->
+                    </div>
+                </div>
+                <!-- receipts -->
+            </td>
+        </tr>
+    </table>   
+</form><script type="text/javascript">
+
+    $(document).ready(function () {
+        var returnId = "00000000-0000-0000-0000-000000000000";
+        if (returnId != '00000000-0000-0000-0000-000000000000') {
+            $("td[name='tdDelete']").hide();
+            $("input").attr("disabled", "true");
+            $("select").attr("disabled", "true");
+        }
+        else {
+            //验证权限
+            var isAudit = checkPermByCode('PERM_ADD');
+            if (!isAudit) {
+                Dialog.alert("非常抱歉，您没有权限访问该页面!", function () {
+                    window.location.href = "./List";
+                });
+                return;
+            }
+            //验证帐套状态
+            var sobState = GetSOBState(false);
+            if (sobState == "2") {
+                Dialog.alert("该账套已封账，不能操作！", function () {
+                    window.location.href = "./List";
+                });
+                return;
+            } else
+                if (sobState == "3") {
+                    unLockState();
+                    return;
+                } else if (sobState != "1") {
+                    Dialog.alert("当前帐套不是开账状态！请先开账！", function () {
+                        window.location.href = "./List";
+                    })
+                    return;
+                }
+            //验证帐套状态
+            //if (!GetSOBState(false)) {
+            //    Dialog.alert("当前帐套不是开账状态！请先开账！", function () {
+            //        window.location.href = "./List";
+            //    })
+            //    return;
+            //}
+        }
+        InitOrder();
+        //打印
+        var rememberPrint = "0";
+        var isPrint = requestUrlPara("IsPrint");
+        if (isPrint == 1) {
+            $("#chkPrint").attr("checked", "checked");
+        } else {
+            if (rememberPrint == "1") {
+                $("#chkPrint").attr("checked", "checked");
+            } else if (rememberPrint == "0") {
+                $("#chkPrint").removeAttr("checked");
+            }
+        }
+        var printReturnId = requestUrlPara("ReturnId");
+        var isToList = requestUrlPara("IsToList");
+        if (isToList == 1) {
+            parent.childAddTab('退货历史', '/SaleReturn/List?IsPrint=' + isPrint + '&isToList='+isToList+'&ReturnId=' + printReturnId, '慧管货');
+        } else
+            if (isPrint == 1) {
+                OpenPrint('/SaleReturn/Print?ReturnId=' + printReturnId);
+            }
+    });
+    //删除行
+    function deleteRow(obj) {
+        obj.parentNode.parentNode.parentNode.parentNode.removeChild(obj.parentNode.parentNode.parentNode);
+        //计算总金额
+        calCountAmt();
+        InitOrder();
+    }
+
+    //单行计算金额
+    function calSaleAmt(obj) {
+        //验证单位
+        var unitName = $(obj).parent().parent().children('td').eq(5).find('input[name="UnitName"]').val();
+        var isDecimal = $(obj).parent().parent().children('td').eq(5).find('input[name="HidIsDecimal"]').val();
+
+        //验证单据的单价和数量是否超过关联销售单的单价和金额 
+        var sPrice = $(obj).parent().parent().children('td').eq(3).find('input[name="hidReturnPrice"]').val();
+        var sCount = $(obj).parent().parent().children('td').eq(4).find('input[name="hidReturnCount"]').val();
+        //验证税率
+        var isOpenTax = "0";
+        var TaxRate = $(obj).parent().parent().children('td').eq(7).find('input').val();
+
+        var salePrice = $(obj).parent().parent().children('td').eq(3).find('input[name="ReturnPrice"]').val();
+        var saleCount = $(obj).parent().parent().children('td').eq(4).find('input[name="ReturnCount"]').val();
+        $(obj).parent().parent().children('td').eq(6).find('input').val((Number(salePrice) * Number(saleCount)).toFixed(2));
+
+        //验证单位
+        if (isDecimal == "0" && !isInteger(saleCount)) {
+            Dialog.alert('单位为 ' + unitName + ' 时， 数量必须输入整数！', function () {
+                $(obj).parent().parent().children('td').eq(4).find('input').val("");
+                $(obj).parent().parent().children('td').eq(4).find('input').focus();
+            });
+            return;
+        }
+
+        //验证单价
+        if (Number(salePrice) > Number(sPrice)) {
+            Dialog.alert('退货单价不能大于销售单中的单价！', function () {
+                $(obj).parent().parent().children('td').eq(3).find('input').val("");
+                $(obj).parent().parent().children('td').eq(3).find('input').focus();
+            });
+            return;
+        }
+        //验证数量
+        if (Number(saleCount) > Number(sCount)) {
+            Dialog.alert('退货数量不能超过销售单中的数量');
+            $(obj).parent().parent().children('td').eq(4).find('input').css("color", "red").css("font-weight", "700");
+            return;
+        } else {
+            $(obj).parent().parent().children('td').eq(4).find('input').css("color", "#000").css("font-weight", "normal");
+
+        }
+        if (isOpenTax == "1") {
+            //验证税率
+            if (TaxRate == "" || !isNumber(TaxRate) || Number(TaxRate) < 0 || Number(TaxRate) > 100) {
+                Dialog.alert('税率必须为0-100的数字！');
+                $(obj).parent().parent().children('td').eq(7).find('input').val("0");
+                $(obj).parent().parent().children('td').eq(7).find('input').focus();
+                return;
+            }
+            if (isNumber(TaxRate) && TaxRate != "")
+                $(obj).parent().parent().children('td').eq(8).find('input').val(((Number(salePrice) * Number(saleCount)) + (Number(salePrice) * Number(saleCount) * Number(TaxRate) / 100)).toFixed(2));
+        }
+        //计算总金额
+        calCountAmt();
+        $(obj).parent().parent().children('td').eq(3).find('input[name="ReturnPrice"]').val(Number(salePrice).toFixed(2));
+    }
+
+
+
+    //单行根据总金额和数量计算单价
+    function calReturnPrice(obj) {
+        //验证税率
+        var isOpenTax = "0";
+        var TaxRate = $(obj).parent().parent().children('td').eq(7).find('input').val();
+        var saleCount = $(obj).parent().parent().children('td').eq(4).find('input').val();
+        var saleAmt = $(obj).parent().parent().children('td').eq(6).find('input').val();
+        var salePrice = 0;
+        if (saleCount != "" && Number(saleCount) != 0) {
+            $(obj).parent().parent().children('td').eq(3).find('input').val((Number(saleAmt) / Number(saleCount)).toFixed(2));
+            salePrice = Number(saleAmt) / Number(saleCount);
+        }
+        if (isOpenTax == "1") {
+            //验证税率
+            if (TaxRate == "" || !isNumber(TaxRate) || Number(TaxRate) < 0 || Number(TaxRate) > 100) {
+                Dialog.alert("税率必须为0-100的数字！");
+                $(obj).parent().parent().children('td').eq(7).find('input').val("0");
+                $(obj).parent().parent().children('td').eq(7).find('input').focus();
+                return;
+            }
+            if (isNumber(TaxRate) && TaxRate != "")
+                $(obj).parent().parent().children('td').eq(8).find('input').val(((salePrice * Number(saleCount)) + (salePrice * Number(saleCount) * Number(TaxRate) / 100)).toFixed(2));
+        }
+        calCountAmt();
+    }
+
+    //计算总金额
+    function calCountAmt() {
+        //var amtNode = $("input[name='EachBuyAmt']");
+        var amtCount = 0;
+        var totalCount = 0;
+        var rateAmt = 0;
+        var totalRateAmt = 0;
+        var rows = $("#tabProducts tr");
+        var isOpenTax = "0";
+        for (var j = 0; j < rows.length; j++) {
+            var productName = $(rows[j]).children('td').eq(1).find('input[name="showProductName"]').val();
+            var eachAmt = $(rows[j]).children('td').eq(6).find('input[name="EachReturnAmt"]').val();
+            var eachCount = $(rows[j]).children('td').eq(4).find('input[name="ReturnCount"]').val();
+            
+            if (typeof (productName) != 'undefined' && productName != '' && typeof (eachAmt) != 'undefined' && eachAmt != '') {
+                amtCount = amtCount + Number(eachAmt);
+                totalCount = totalCount + Number(eachCount);
+            }
+            if (isOpenTax == "1") {
+                var eachRate = $(rows[j]).children('td').eq(7).find('input[name="EachTaxRate"]').val();
+                var eachAfterRateAmt = $(rows[j]).children('td').eq(8).find('input[name="EachAfterTaxAmt"]').val();
+                if (typeof (eachAfterRateAmt) != 'undefined' && eachAfterRateAmt != '') {
+                    rateAmt = rateAmt + Number(eachAfterRateAmt);
+                }
+                //计算总税额
+                if (typeof (productName) != 'undefined' && productName != '' && typeof (eachAmt) != 'undefined' && eachAmt != '') {
+                    var eachRateAmt = eachAmt * eachRate / 100;
+                    if (typeof (eachRateAmt) != 'undefined' && eachRateAmt != '') {
+                        totalRateAmt = totalRateAmt + Number(eachRateAmt);
+                    }
+                }
+                //var taxRate = $(rows[j]).children('td').eq(7).find('input[name="EachTaxRate"]').val();
+                //if (taxRate != '' && typeof (taxRate) != 'undefined') {
+                //    var eachprice = 0;
+                //    if (eachCount != 0) {
+                //        eachprice = eachAfterRateAmt / (taxRate / 100 + 1) / eachCount;
+                //    }
+                //    $(rows[j]).children('td').eq(3).find('input[name="ReturnPrice"]').val(Number(eachprice).toFixed(2));
+                //    $(rows[j]).children('td').eq(6).find('input[name="EachReturnAmt"]').val(Number(eachprice * eachCount).toFixed(2));
+                //}
+            }
+        }
+        
+        $("#PayAmt").val(amtCount.toFixed(2));
+        $("#spanTotalCount").text(totalCount.toFixed(2));
+        $("#spanTaxAmt").text(rateAmt.toFixed(2));
+        $("#spanTotalTaxAmt").text(totalRateAmt.toFixed(2));
+        //计算折扣率
+        calDiscountAmt();
+    }
+
+    //计算折后金额
+    function calDiscountAmt() {
+        var otherFee = $("#OtherFee").val();
+        if (!isNumber(otherFee)) {
+            Dialog.alert("其他费用格式不正确");
+            return;
+        }
+        var amtCount = $("#PayAmt").val();
+        var isOpenTax = "0";
+        if (isOpenTax == "1") {
+            amtCount = $("#spanTaxAmt").text();
+        }
+        var discountRate = 100;
+        var discountAmt = (Number(amtCount) * Number(discountRate) / 100);
+        var faReceAmt = Number(otherFee) + discountAmt;
+        $("#DisCountAmt").val(discountAmt.toFixed(2));
+        $("#FAReceAmt").val(faReceAmt.toFixed(2));
+        $("#spanFAReceAmt").text(faReceAmt.toFixed(2));
+        $("#RealPayAmt").val(faReceAmt.toFixed(2));
+    }
+    //计算折扣率 默认填充本次收款
+    function calDiscountRate() {
+        var amtCount = $("#PayAmt").val();
+        var discountAmt = 100;
+        $("#DiscountRate").val((Number(discountAmt) / Number(amtCount) * 100).toFixed(2));
+        $("#RealPayAmt").val($("#DisCountAmt").val());
+        $("#FAReceAmt").val($("#DisCountAmt").val());
+        $("#spanFAReceAmt").text($("#DisCountAmt").val());
+    }
+    function ValidateNo(returnNo) {
+        var NIVal = -1;
+        $.ajax({
+            dataType: "json",
+            data: { returnNo: returnNo },
+            cache: false,
+            async: false,
+            url: "/SaleReturn/ValidateNo/?" + Math.random(),
+            type: "post",
+            success: function (data) {
+                NIVal = data.Data;
+            },
+            error: function () {
+                Dialog.alert("失败");
+            }
+        });
+        return NIVal;
+    }
+    function calReturnNo() {
+        var buyNo = $("#ReturnNo").val().trim();
+        if (buyNo == "") {
+            Dialog.alert("请输入单据编号");
+            return;
+        };
+        if (!CheckWord(buyNo)) {
+            return;
+        }
+        var temp = ValidateNo(buyNo);
+        if (temp == "0") {
+            Dialog.alert("单据编号重复");
+            return;
+        }
+    }
+    //提交表单
+    function ValidateForm() {
+        var isOpenTax = "0";
+        //单据编号
+        if ($("#ReturnNo").val().trim() == "") {
+            Dialog.alert("请输入单据编号。", function () {
+                $("#ReturnNo").addClass("input-validation-error");
+            });
+            return false;
+        }
+        if (!CheckWord($("#ReturnNo").val().trim())) {
+            $("#ReturnNo").addClass("input-validation-error");
+            return false;
+        }
+        if (ValidateNo($("#ReturnNo").val()) == "0") {
+            Dialog.alert("单据编号重复。", function () {
+                $("#ReturnNo").addClass("input-validation-error");
+            });
+            return false;
+        }
+        //客户
+        if ($(".combo-value").val() == '' || $(".combo-value").val() == '00000000-0000-0000-0000-000000000000') {
+            Dialog.alert("请输入客户。", function () {
+                $(".combo").addClass("input-validation-error");
+            });
+            return false;
+        } else {
+            $(".combo").removeClass("input-validation-error");
+        }
+        //关联销售单
+
+        if ($("#SaleId").val() == '') {
+            Dialog.alert("请选择关联销售单。");
+            return false;
+        }
+
+        //经手人
+        if ($("#SaleUser").val() == '') {
+            Dialog.alert("请选择经手人。", function () {
+                $("#SaleUser").addClass("input-validation-error");
+            });
+            return false;
+        }
+        //业务日期
+        if ($("#ReturnDate").val() == '') {
+            Dialog.alert("请选择业务日期。", function () {
+                $("#ReturnDate").addClass("input-validation-error");
+            });
+            return false;
+        }
+
+        var productHid = $("input:hidden[name='hidProductId']");
+        //验证数量
+        var buyCountList = $("input:text[name='ReturnCount']");
+        //验证单价
+        var buyPriceList = $("input:text[name='ReturnPrice']");
+        //验证税率
+        var isOpenTax = "0";
+        var TaxRateList = $("input:text[name='EachTaxRate']");
+        //验证单位
+        var unitNameList = $("input:text[name='UnitName']");
+        var unitIsDecimal = $("input:hidden[name='HidIsDecimal']");
+        //验证单价数量是否超过关联销售单的单价数量
+        var sPriceList = $("input:hidden[name='hidReturnPrice']");
+        var sCountList = $("input:hidden[name='hidReturnCount']");
+        var tempHidValue = "";
+        for (var i = 0; i < productHid.length; i++) {
+            //判断退货数量大于0的
+            if (buyCountList[i].value != "" && Number(buyCountList[i].value) > 0) {
+                tempHidValue = tempHidValue + productHid[i].value;
+            }
+
+            if (productHid[i].value != "" && (buyPriceList[i].value == "" || Number(buyPriceList[i].value) < 0)) {
+                buyPriceList[i].value = "";
+                Dialog.alert("商品单价必填并且不能小于0。", function () {
+                    $(buyPriceList[i]).focus(); $(buyPriceList[i]).css({
+                        "border-bottom": "#fff000 1px solid",
+                        "border-left": "#fff000 1px solid",
+                        "border-right": "#fff000 1px solid",
+                        "border-top": "#fff000 1px solid"
+                    });
+                });
+                return false;
+                break;
+            }
+            if (Number(buyPriceList[i].value) > 9999999999) {
+                buyPriceList[i].value = "";
+                Dialog.alert("商品单价数值超出合理的范围。", function () {
+                    $(buyPriceList[i]).focus(); $(buyPriceList[i]).css({
+                        "border-bottom": "#fff000 1px solid",
+                        "border-left": "#fff000 1px solid",
+                        "border-right": "#fff000 1px solid",
+                        "border-top": "#fff000 1px solid"
+                    });
+                });
+                return false;
+                break;
+            }
+
+            if (productHid[i].value != "" && (buyCountList[i].value == "" || Number(buyCountList[i].value) <= 0)) {
+                buyCountList[i].value = "";
+                Dialog.alert("商品数量必填并且不能小于0。", function () {
+                    $(buyCountList[i]).focus(); $(buyCountList[i]).css({
+                        "border-bottom": "#fff000 1px solid",
+                        "border-left": "#fff000 1px solid",
+                        "border-right": "#fff000 1px solid",
+                        "border-top": "#fff000 1px solid"
+                    });
+                });
+                return false;
+                break;
+            }
+            if (Number(buyCountList[i].value) > 9999999999) {
+                buyCountList[i].value = "";
+                Dialog.alert("商品数量数值超出合理的范围。", function () {
+                    $(buyCountList[i]).focus(); $(buyCountList[i]).css({
+                        "border-bottom": "#fff000 1px solid",
+                        "border-left": "#fff000 1px solid",
+                        "border-right": "#fff000 1px solid",
+                        "border-top": "#fff000 1px solid"
+                    });
+                });
+                return false;
+                break;
+            }
+            if (unitIsDecimal[i].value == "0" && !isInteger(buyCountList[i].value)) {
+                Dialog.alert('单位为 ' + unitNameList[i].value + ' 时， 数量必须输入整数！',
+                    function () { $(buyCountList[i]).focus(); });
+                return false;
+            }
+            if (Number(buyPriceList[i].value) > Number(sPriceList[i].value)) {
+                Dialog.alert('退货单价不能大于销售单中的单价',
+                    function () { $(buyPriceList[i]).focus(); });
+                return false;
+            }
+            if (Number(buyCountList[i].value) > Number(sCountList[i].value)) {
+                Dialog.alert('退货数量不能超过销售单中的数量');
+                $(buyCountList[i]).css("color", "red").css("font-weight", "700");
+                return false;
+            } else {
+                $(buyCountList[i]).css("color", "#000").css("font-weight", "normal");
+
+            }
+            if (isOpenTax == "1") {
+                //验证税率
+                if (!isNumber(TaxRateList[i].value) || Number(TaxRateList[i].value) < 0 || Number(TaxRateList[i].value) > 100) {
+                    Dialog.alert('税率必须为0-100的数字！');
+                    $(TaxRateList[i]).focus();
+                    return false;
+                }
+            }
+        }
+        if (tempHidValue == "") {
+            Dialog.alert("当前没有商品可退。");
+            return false;
+        }
+
+
+        //总金额
+        if (!isNumber($("#PayAmt").val())) {
+            Dialog.alert("总金额格式不正确。", function () {
+                $("#PayAmt").addClass("input-validation-error");
+            });
+            return false;
+        }
+        if (Number($("#PayAmt").val()) > 9999999999) {
+            Dialog.alert("总金额值超出合理的范围。", function () {
+                $("#PayAmt").addClass("input-validation-error");
+            });
+            return false;
+        }
+        $("#PayAmt").removeClass("input-validation-error");
+        //其他费用
+        if ($("#OtherFee").val() == '') {
+            Dialog.alert("请输入其他费用。", function () {
+                $("#OtherFee").addClass("input-validation-error");
+            });
+            return false;
+        }
+        if (!isNumber($("#OtherFee").val())) {
+            Dialog.alert("其他费用格式不正确。", function () {
+                $("#OtherFee").addClass("input-validation-error");
+            });
+            return false;
+        }
+        if (Number($("#OtherFee").val()) > 9999999999) {
+            Dialog.alert("其他费用超出合理的范围。", function () {
+                $("#OtherFee").addClass("input-validation-error");
+            });
+            return false;
+        }
+        $("#OtherFee").removeClass("input-validation-error");
+        //本次退款
+        if ($("#RealPayAmt").val() == '') {
+            Dialog.alert("请输入本次退款。", function () {
+                $("#RealPayAmt").addClass("input-validation-error");
+            });
+            return false;
+        }
+        if (!isNumber($("#RealPayAmt").val())) {
+            Dialog.alert("本次退款格式不正确。", function () {
+                $("#RealPayAmt").addClass("input-validation-error");
+            });
+            return false;
+        }
+        if (Number($("#RealPayAmt").val()) > 9999999999) {
+            Dialog.alert("本次退款超出合理的范围。", function () {
+                $("#RealPayAmt").addClass("input-validation-error");
+            });
+            return false;
+        }
+        $("#RealPayAmt").removeClass("input-validation-error");
+
+        //付款账户
+        if ($("#AccountId").val() == '' || $("#AccountId").val() == null) {
+            Dialog.alert("请选择结算方式。", function () {
+                $("#AccountId").addClass("input-validation-error");
+            });
+            return false;
+        }
+        return true;
+    }
+
+    function selSaleNo(arg) {
+        parent.$('#openFrameDiv').dialog({
+            title: '选择销售单',
+            width: 1000,
+            height: 600,
+            closed: false,
+            cache: false,
+            modal: true,
+            maximizable: true,
+            resizable: true,
+            buttons: null
+        });
+        parent.$('#openIframe')[0].src = "/Sale/SelectSaleNo?IsReturn=1";
+        parent.$('#openFrameDiv').dialog('open');
+    }
+
+    // 添加关联进货单对应的商品
+    function AddSaleProduct(tempJson) {
+        //清除之前选择的单据商品
+        var productHid = $("input:hidden[name='hidProductId']");
+        for (var i = 0; i < productHid.length; i++) {
+            if ($(productHid[i]).val() != '') {
+                productHid[i].parentNode.parentNode.parentNode.removeChild(productHid[i].parentNode.parentNode);
+            }
+        }
+        var serial = "0";
+        for (var i = 0; i < tempJson.length; i++) {
+            var trTmp = $("#trTmp").clone();
+            trTmp.attr("id", "");
+            trTmp.show();
+            trTmp.children('td').eq(1).find('input[name="showProductName"]').val(tempJson[i]["ProductName"] + "/" + tempJson[i]["Form"]);
+            trTmp.children('td').eq(1).find('input[name="showProductName"]').attr("readonly", "readonly");
+            trTmp.children('td').eq(1).find('input[name="showProductName"]').attr("unselectable", "on");
+            trTmp.children('td').eq(2).find('input[name="showProductCode"]').val(tempJson[i]["ProductCode"]);
+            trTmp.children('td').eq(2).find('input[name="showProductCode"]').attr("readonly", "readonly");
+            trTmp.children('td').eq(2).find('input[name="showProductCode"]').attr("unselectable", "on");
+            trTmp.children('td').eq(2).find('input[name="hidProductId"]').val(tempJson[i]["ProductId"]);
+            trTmp.children('td').eq(3).find('input[name="ReturnPrice"]').val(tempJson[i]["ProductCostPrice"]);
+            trTmp.children('td').eq(3).find('input[name="hidReturnPrice"]').val(tempJson[i]["ProductCostPrice"]);
+            trTmp.children('td').eq(5).find('input[name="UnitName"]').val(tempJson[i]["ProductUnitName"]);
+            trTmp.children('td').eq(5).find('input[name="UnitName"]').attr("readonly", "readonly");
+            trTmp.children('td').eq(5).find('input[name="UnitName"]').attr("unselectable", "on");
+            trTmp.children('td').eq(5).find('input[name="HidUnitCode"]').val(tempJson[i]["ProductUnit"]);
+            trTmp.children('td').eq(5).find('input[name="HidIsDecimal"]').val(tempJson[i]["IsDecimal"]);
+            trTmp.children('td').eq(4).find('input[name="hidReturnCount"]').val(tempJson[i]["CurSaveCount"]);
+            trTmp.children('td').eq(7).find('input[name="EachTaxRate"]').val(tempJson[i]["TaxRate"]);
+            if (serial == "1") {
+                if (tempJson[i]["SNManage"] != "0") {
+                    trTmp.children('td').eq(4).find('.sn').show();
+                    trTmp.children('td').eq(4).find("a[name='aSingleSN']").hide();
+                } else {
+                    trTmp.children('td').eq(4).find('.sn').hide();
+                }
+                if (tempJson[i]["SNManage"] == "1") {
+                    trTmp.children('td').eq(4).find('input[name="ReturnCount"]').attr("readonly", "readonly");
+                    trTmp.children('td').eq(4).find('input[name="ReturnCount"]').attr("unselectable", "on");
+                    trTmp.children('td').eq(4).find('input[name="ReturnCount"]').val(tempJson[i]["SerialIODetail"].length).change();
+                }
+                else {
+                    trTmp.children('td').eq(4).find('input[name="ReturnCount"]').removeAttr("readonly");
+                    trTmp.children('td').eq(4).find('input[name="ReturnCount"]').removeAttr("unselectable");
+                    trTmp.children('td').eq(4).find('input[name="ReturnCount"]').val(tempJson[i]["CurSaveCount"]).change();
+                }
+                var strSerialId = '';
+                var strSerialNo = '';
+                var strSerialRemarks = '';
+                $.each(tempJson[i]["SerialIODetail"], function (i, val) {
+                    var liTemp = $("#SNLiTemp").clone();
+                    liTemp.find(".num").text(i + 1);
+                    liTemp.find(".snText").text(val.SerialNo);
+                    liTemp.find(".delLite").attr("id", val.SerialId);
+                    trTmp.children('td').eq(4).find('ul').append(liTemp);
+                    strSerialId = strSerialId + val.SerialId + ";";
+                    strSerialNo = strSerialNo + val.SerialNo + ";";
+                    strSerialRemarks = strSerialRemarks + val.SerialRemark + ";";
+                });
+                trTmp.children('td').eq(4).find('input[name="hidOldSerialId"]').val(strSerialId);
+                trTmp.children('td').eq(4).find('input[name="hidOldSerialNo"]').val(strSerialNo);
+                trTmp.children('td').eq(4).find('input[name="hidSerialId"]').val(strSerialId);
+                if (tempJson[i]["SNManage"] == "1" && tempJson[i]["SerialIODetail"].length < Number(tempJson[i]["CurSaveCount"])) {
+                    trTmp.children('td').eq(4).find('.sn').hide();
+                    var rowId = guidGenerator();
+                    trTmp.children('td').eq(4).find('input[name="hidSerialNo"]').attr("id", "sno" + rowId);
+                    trTmp.children('td').eq(4).find('input[name="hidSerialRemarks"]').attr("id", "snr" + rowId);
+                    trTmp.children('td').eq(4).find('input[name="hidRowId"]').val(rowId);
+                    trTmp.children('td').eq(4).find('input[name="hidSerialNo"]').val(strSerialNo);
+                    trTmp.children('td').eq(4).find('input[name="hidSerialRemarks"]').val(strSerialRemarks);
+                    trTmp.children('td').eq(4).find("a[name='aSingleSN']").show();
+                }
+            }
+            else {
+                trTmp.children('td').eq(4).find('input[name="ReturnCount"]').val(tempJson[i]["CurSaveCount"]).change();
+            }
+            trTmp.insertBefore($("#trTmp"));
+        }
+
+        //计算总金额
+        calCountAmt();
+        InitOrder();
+    }
+
+    //删除序列号
+    function deleteSN(obj) {
+        var ul = $(obj).parent().parent().parent();
+        var strSerialId = $(obj).parent().parent().parent().parent().parent().parent().find('input[name="hidSerialId"]').val();
+        strSerialId = strSerialId.replace($(obj).attr("id") + ";", "");
+        $(obj).parent().parent().parent().parent().parent().parent().find('input[name="hidSerialId"]').val(strSerialId);
+        $(obj).parent().parent().remove();
+        $.each(ul.find("li"), function (i, val) {
+            $(val).find(".num").text(i + 1);
+        });
+        var oldReturnCount = Number(ul.parent().parent().parent().find('input[name="ReturnCount"]').val());
+        var saleCount = Number(ul.parent().parent().parent().find('input[name="hidReturnCount"]').val());
+        if (oldReturnCount > saleCount) {
+            oldReturnCount = saleCount;
+        }
+        ul.parent().parent().parent().find('input[name="ReturnCount"]').val(oldReturnCount - 1).change();
+    }
+
+    //还原序列号
+    function returnAllSN(obj) {
+        var oldSerialId = $(obj).parent().parent().parent().parent().find('input[name="hidOldSerialId"]').val();
+        var oldSerialNo = $(obj).parent().parent().parent().parent().find('input[name="hidOldSerialNo"]').val();
+        var oldSerialNoArr = oldSerialNo.split(';');
+        var oldSerialIdArr = oldSerialId.split(';');
+        $(obj).parent().parent().parent().parent().find('input[name="hidSerialId"]').val(oldSerialId);
+        var leaveSerialNoCount = $(obj).parent().parent().parent().parent().find('ul li').length;
+        $(obj).parent().parent().parent().parent().find('ul li').remove();
+        $.each(oldSerialNoArr, function (i, val) {
+            if (val != null && val != '') {
+                var liTemp = $("#SNLiTemp").clone();
+                liTemp.find(".num").text(i + 1);
+                liTemp.find(".snText").text(val);
+                liTemp.find(".delLite").attr("id", oldSerialIdArr[i]);
+                $(obj).parent().parent().parent().parent().find('ul').append(liTemp);
+            }
+        });
+        var oldReturnCount = Number($(obj).parent().parent().parent().parent().find('input[name="ReturnCount"]').val());
+        var saleCount = Number($(obj).parent().parent().parent().parent().find('input[name="hidReturnCount"]').val());
+        var newReturnCount = oldReturnCount + (oldSerialNoArr.length - 1 - leaveSerialNoCount);
+        if (saleCount < newReturnCount) {
+            newReturnCount = saleCount;
+        }
+        $(obj).parent().parent().parent().parent().find('input[name="ReturnCount"]').val(newReturnCount).change();
+    }
+
+    //选择客户时清空当前关联的单据
+    function ChangeClient() {
+        //清除之前选择的单据商品
+        var productHid = $("input:hidden[name='hidProductId']");
+        for (var i = 0; i < productHid.length; i++) {
+            if ($(productHid[i]).val() != '') {
+                productHid[i].parentNode.parentNode.parentNode.removeChild(productHid[i].parentNode.parentNode);
+            }
+        }
+        $("#SaleId").val("");
+        $("#SaleNo").val("");
+    }
+
+    //初始化序号
+    function InitOrder() {
+        var rows = $("#tabProducts tr");
+        var orders = 1;
+        for (var i = 0; i < rows.length; i++) {
+            if ($(rows[i]).children('td').eq(2).find('input[type="hidden"]').length == 1 && $(rows[i]).attr("id") != "trTmp") {
+                $(rows[i]).children('td').eq(0).children('#orderdiv').text(orders);
+                orders++;
+            }
+        }
+    }
+    function SaveData() {
+        $(".button").hide();
+        //验证打印权限
+        var isAudit = checkPermByCode('PERM_PRINT');
+        if (ValidateForm()) {
+            if (isAudit) {
+                var isPrint = $("#chkPrint").attr("checked");
+                if (isPrint) {
+                    $("#IsPrint").val(1);
+                    $("form").submit();
+                } else {
+                    $("#IsPrint").val(0);
+                    $("form").submit();
+                }
+            } else {
+                $("form").submit();
+            }
+        } else {
+            $(".button").show();
+        }
+    }
+    function SaveDataToList() {
+        $(".button").hide();
+        //验证打印权限
+        var isAudit = checkPermByCode('PERM_PRINT');
+        if (ValidateForm()) {
+            $("#IsToList").val(1);
+            if (isAudit) {
+                var isPrint = $("#chkPrint").attr("checked");
+                if (isPrint) {
+                    $("#IsPrint").val(1);
+                    $("form").submit();
+                } else {
+                    $("#IsPrint").val(0);
+                    $("form").submit();
+                }
+            } else {
+                $("form").submit();
+            }
+        } else {
+            $(".button").show();
+        }
+    }
+    function chgNoTaxRate() {
+        var isTaxRate = document.getElementsByName("chkNoTaxRate")[0];
+        if (isTaxRate.checked) {
+            var rows = $("#tabProducts tr");
+            for (var j = 0; j < rows.length; j++) {
+                var productName = $(rows[j]).children('td').eq(1).find('input[name="showProductName"]').val();
+                if (typeof (productName) != 'undefined' && productName != '') {
+                    $(rows[j]).children('td').eq(7).find('input').val("0");
+                    $(rows[j]).children('td').eq(7).find('input').change();
+                }
+            }
+        }
+        else {
+            var rows = $("#tabProducts tr");
+            for (var j = 0; j < rows.length; j++) {
+                var productName = $(rows[j]).children('td').eq(1).find('input[name="showProductName"]').val();
+                if (typeof (productName) != 'undefined' && productName != '') {
+                    $(rows[j]).children('td').eq(7).find('input').val(Number("0").toFixed(2));
+                    $(rows[j]).children('td').eq(7).find('input').change();
+                }
+            }
+        }
+    }
+    function openSn(obj) {
+        var productId = $(obj).children('td').eq(2).find("input[name='hidProductId']").val();
+        var rowsId = $(obj).children('td').eq(4).find("input[name='hidRowId']").val();
+        var allowCount = $(obj).children('td').eq(4).find("input[name='hidReturnCount']").val();
+        var warehouseId = $("#WarehouseId").val();
+        SingleSelectSerialNoByAllow(productId, rowsId, warehouseId, "Buy", allowCount, '2');
+    }
+    function SetWarehouseStock(obj) {
+        var serialNoStr = $(obj).val();
+        $(obj).val(serialNoStr.replace(",", ";"));
+        var serialNo = $(obj).val().split(';');
+        if ($(obj).parent().parent().children('td').eq(4).find("input[name='ReturnCount']").attr("readonly") == "readonly") {
+            $(obj).parent().parent().children('td').eq(4).find("input[name='ReturnCount']").val(serialNo.length - 1).change();
+        }
+        else {
+            var buyCount = $(obj).parent().parent().children('td').eq(4).find("input[name='ReturnCount']").val();
+            if ((serialNo.length - 1) > buyCount) {
+                $(obj).parent().parent().children('td').eq(4).find("input[name='ReturnCount']").val(serialNo.length - 1).change();
+            }
+        }
+    }
+</script>
+
+                <div class="footer">
+                    <div class="fl"><span class="fontOrange">客服热线：400-855-1002</span> 产品网站：<a href="http://www.joyinwise.com" class="font999" target="_blank">http://www.joyinwise.com</a><br />
+                        智慧商贸 V2.9 版权所有: 安徽兆尹信息科技有限责任公司 Copyright © 2011-2014 All Rights Reserved</div>
+                    <div class="fr">
+                        <img src="../../Content/themes/default/images/qrhome.png" width="157" height="54" />
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            eval("");
+            parent.$("#divLoading").hide();
+            var errMsg = $(".validation-summary-errors").text();
+            if (errMsg) {
+                Dialog.alert(errMsg);
+            }
+        });
+
+        function AjaxStart() {
+            parent.$("#divLoading").show();
+        }
+        function AjaxStop() {
+            parent.$("#divLoading").hide();
+        }
+
+    </script>
+    <script type="text/javascript">
+        function OpenQuickForm(vwidth, vheight, vpos, vsrc) {
+            $("#divQuickForm iframe").css("width", vwidth);
+            $("#divQuickForm iframe").css("height", vheight);
+            $("#divQuickForm iframe").attr("src", vsrc);
+            $("#divQuickForm").css("right", vpos);
+            $("#divQuickForm").show();
+        }
+
+        function CloseQuickForm() {
+            $("#divQuickForm").hide();
+        }
+
+        $(function () {
+            $("li a").click(function () {
+                if (typeof ($(this).find("span[name='navspan']").attr("class")) != "undefined") {
+                    $("span[name='spanDt']").hide();
+                    $("span[name='navspan']").attr("class", "plus");
+                    $("#dt_" + $(this).attr("index")).show();
+                    $(this).find("span[name='navspan']").attr("class", "short");
+                }
+            });
+            //头部当前选中的ID
+            var firstCurrentId = $(".menuRS").attr("index");
+            //左边菜单当前选中的ID
+            var currentId = $("li .nav2S a").attr("id");
+
+            if (firstCurrentId) {
+                //左边当前选中样式
+                $("div.create_menu").hide();
+                $("#secMenu_" + $("#" + firstCurrentId).attr("index")).show();
+            }
+            if (currentId) {
+                //头部当前选中样式
+                $(".menuRS").attr("class", "menuR");
+                $("#firstRes_" + currentId.split('_')[1]).parent().attr("class", "menuRS");
+                //左边当前选中菜单   
+                $(".nav1S").attr("class", "nav1");
+                $("#nav" + currentId.split('_')[2]).attr("class", "nav1S");
+
+                //左边收起其他菜单 
+                $("#dt_" + currentId.split('_')[2]).show();
+                $("#dt_" + currentId.split('_')[2]).parent().find("span[name='navspan']").attr("class", "short");
+
+                //当前位置
+                //$("#curPos").html($("li .current").attr("pos"));
+                var curObj = $("li .current");
+                if (curObj.length == 2) {
+                    $("#curPos").html($(curObj[1]).attr("pos"));
+                } else {
+                    $("#curPos").html($(curObj[0]).attr("pos"));
+                }
+            }
+        });
+
+        function exLeft() {
+            if ($(".nav").is(":visible")) {
+                $(".nav").hide();
+                $(".navBg").attr("width", "10");
+                $(".hiddenNav").attr("class", "hiddenNav2");
+            }
+            else {
+                $(".nav").show();
+                $(".navBg").attr("width", "225");
+                $(".hiddenNav2").attr("class", "hiddenNav");
+            }
+        }
+
+        function outLeft() {
+            $(".nav").show();
+            $(".navBg").attr("width", "225");
+            $(".hiddenNav2").attr("class", "hiddenNav");
+        }
+    </script>
+    <div style="display:none">
+    <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        //document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F21bfb059bc18ae42be9caea3a8b358ca' type='text/javascript'%3E%3C/script%3E"));
+    </script></div>
+</body>
+</html>
+<script type="text/javascript">
+    var _controller = "SaleReturn";
+    var _action = "Add";
+    var _url = decodeURI("http://joyinwise.com/SaleReturn/Add");
+    var _source = decodeURI("http://joyinwise.com/HomePage/Welcome");
+    $.ajax({
+        type: "GET",
+        url: "/behavior/log?" + Math.random(),
+        data: "control=" + _controller + "&action=" + _action + "&url=" + _url + "&source=" + _source
+    });
+</script>

@@ -1,0 +1,598 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>智慧商贸
+日常收支历史单据    </title>
+    <script src="/Content/jquery-easyui/jquery-1.7.2.min.js?v2.9.5" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="/Content/themes/default/css/style.css?v2.9.5" />
+    <link rel="stylesheet" type="text/css" href="/Content/jquery-easyui/themes/default/easyui.css?v2.9.5" />
+    <link rel="stylesheet" type="text/css" href="/Content/jquery-easyui/themes/icon.css?v2.9.5" />
+    <script src="/Scripts/jquery.validate-1.11.1.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/jquery.validate.unobtrusive.min.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/modernizr-1.7.min.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Content/My97DatePicker/WdatePicker.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/PropertyManager.js?v2.9.5" type="text/javascript"></script> 
+    <script src="/Scripts/SelectProducts.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/GetState.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Content/jquery-easyui/jquery.easyui.min.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/PERM.js?2013?v2.9.5" type="text/javascript"></script>
+    <script type="text/javascript" src="/Scripts/jquery.unobtrusive-ajax.min.js?v2.9.5"></script>
+    <script src="/Scripts/MVCPage.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/jquery_validator_message_cn.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/PageLoading.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/ChinesePY.js?v2.9.5" type="text/javascript"></script> 
+    <!--PNG透明-->
+    <!--[if lte IE 6]>
+    <script src="/Scripts/DD_belatedPNG_0.0.8a.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            DD_belatedPNG.fix('*');
+        </script>
+    <![endif]-->
+</head>
+<body>
+    <div id="loading"></div>
+    <table style="min-width: 882px;" width="100%" border="0" height="610" cellspacing="0" cellpadding="0">
+        <tr>
+            <td valign="top" bgcolor="#e6e6e8" class="main">
+                
+<div class="buttonArea" style="padding-right: 315px">
+<form action="/InComeAndPay/List" method="post"><input data-val="true" data-val-number="字段 SearchType 必须是一个数字。" data-val-required="The SearchType field is required." id="SearchType" name="SearchType" type="hidden" value="1" />        <div class="searchAdvanced" style="margin-bottom: 10px; display: none;">
+            <div>
+                <input type="hidden" name="hidAdvanced" id="hidAdvanced" value="0" />
+
+                <span class="title">业务日期</span>
+                <input class="inputText data" id="SearchBusiDate" name="SearchBusiDate" onClick="WdatePicker({maxDate:&#39;#F{$dp.$D(\&#39;SearchBusiDateEnd\&#39;) || \&#39;2100-10-01\&#39;}&#39;})" readonly="true" type="text" value="" />
+                <span>&nbsp;&nbsp;~&nbsp;&nbsp;</span>
+                <input class="inputText data" id="SearchBusiDateEnd" name="SearchBusiDateEnd" onClick="WdatePicker({minDate:&#39;#F{$dp.$D(\&#39;SearchBusiDate\&#39;)}&#39;,maxDate:&#39;2100-10-01&#39;})" readonly="true" type="text" value="" />
+            </div>
+            <div>
+                <span class="title">单据编号</span><input class="inputText" id="SearchCapitalNo" name="SearchCapitalNo" type="text" value="" />
+            </div>
+            <div>
+                <span class="title">项目名称</span>
+                <select id="ProjectId" name="ProjectId" style="width:120px"><option value="">所有项目</option>
+<option value="494634bc-e28b-4d4c-a001-dcdd63f98aa9">其他收入</option>
+</select>
+                
+            </div>
+            <div>
+                <span class="title"><a class="button" onclick="reload()" id="searchAdvance">搜索</a></span>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="left">
+            <div class="contentTab">
+                <ul>
+                        <li><a href="/InComeAndPay/List?SearchType=1" class="contentTabS">收入</a></li>
+                        <li><a href="/InComeAndPay/List?SearchType=2" class="contentTabN">支出</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- left -->
+        <div class="right">
+
+            <span class="fl">
+                <input type="checkbox" id="chkZF" value="0" onclick="reload()" checked="checked" /><label for="chkZF">&nbsp;不显示作废单据</label>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <a class="button PERM_EMP" onclick="Export()">导出</a>
+            <span id="simpleSearch">
+                <input class="inputText fl" id="SearchKey" name="SearchKey" placeholder="请输入模糊关键字" size="30" type="text" value="" />
+                <a class="button" onclick="reload()" id="search">搜索</a></span>
+            <a class="button" id="aAdvanced">高级搜索</a>
+
+            <div class="clear height10"></div>
+        </div> </form>    <!-- right -->
+</div>
+<div class="clear"></div>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="500">
+    <tr>
+        <td valign="top">
+
+            <div class="clear"></div>
+<input type="hidden" id="mvcUrl" />
+<div id="dvOrders">
+
+        <div class="shadowBoxWhite">
+            <table align="center">
+                <tr>
+                    <td align="center">
+                        <p>&nbsp;</p>
+                        <p>
+                            <img src="../../Content/themes/default/images/nodata_sale.png" />
+                        </p>
+                        <p class="fontNodata">
+                            当前还没有任何数据<br />
+                        </p>
+                        <p>&nbsp;</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //初始化排序图标
+        var sortorder = request('sortorder', $("#mvcUrl").val());
+        var usortname = request('sortname', $("#mvcUrl").val());
+        if (usortname != '') {
+            if (sortorder == 'asc') {
+                $('#' + usortname).addClass("Oup");
+            }
+            else {
+                $('#' + usortname).addClass("Odown");
+            }
+        }
+            //默认排序
+        else {
+            $('#UpLoadTime').addClass("Odown");
+        }
+    });
+</script>
+            <!-- tableDiv -->
+        </td>
+        <td width="315" valign="top">
+            <div class="clear"></div>
+            <div class="errorInfo" style="display: none; top: auto; right: auto; width: 290px; margin: -40px 0 0 15px">您的输入有误您的输入有误~</div>
+            <div class=" quickAdd shadowBoxYellow" id="divAdd">
+<div class="title">收入</div>
+                <div class="text">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                        <tr>
+                            <td width="80" valign="middle" class="font14">单据编号</td>
+                            <td>
+                                <input name="CapitalNo" id="CapitalNo" value="SZ20140215002" type="text" class="inputText" /></td>
+                        </tr>
+                        <tr>
+                            <td valign="middle" class="font14">业务日期</td>
+                            <td>
+                                <input name="BusiDateTime" id="BusiDateTime" value="2014-02-15" type="text" class="inputText data" onclick="WdatePicker({minDate:'1900-01-01'})" /></td>
+                        </tr>
+                        <tr>
+                            <td valign="middle" class="font14">项目名称</td>
+                            <td>
+                                <select name="selProject" id="selProject" class="easyui-combobox" style="width: 200px;">
+                                        <option value="494634bc-e28b-4d4c-a001-dcdd63f98aa9">其他收入</option>
+                                </select></td>
+                        </tr>
+                        <tr>
+                            <td valign="middle" class="font14"><span>收入账户</span>
+</td>
+                            <td>
+                                <select name="selAccount" id="selAccount" class="wf100">
+                                        <option value="ad931a26-b62e-4073-aaca-1d9d6e7e0990">现金</option>
+                                        <option value="0028aa61-24c8-4cd5-87ef-a4f090d72b32">1002001</option>
+                                </select></td>
+                        </tr>
+                        <tr>
+                            <td valign="middle" class="font14">经手人</td>
+                            <td>
+                                <select name="selOperator" id="selOperator" class="wf100">
+                                        <option value="18cb32bc-f5dd-4704-870b-26bbad60006e">管理员</option>
+                                </select></td>
+                        </tr>
+                        <tr>
+                            <td valign="middle" class="font14">金额（元）</td>
+                            <td>
+                                <input name="CapitalAmt" id="CapitalAmt" type="text" class="inputText" /></td>
+                        </tr>
+                        <tr>
+                            <td valign="top" class="font14">备注</td>
+                            <td>
+                                <textarea name="CapitalRemark" id="CapitalRemark" cols="" rows="5">&nbsp;</textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td><a class=" button blueButton PERM_ADD" onclick="doIncome()">保存</a></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class=" contactUs shadowBoxWhite" id="divDetail" style="height: auto; display: none;">
+<div class="title">收入</div>
+                <div class="text">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                        <tr>
+                            <td width="60" valign="top" align="right" class="font999">单据编号</td>
+                            <td class="font14" align="left" id="tdCapitalNo"></td>
+                        </tr>
+                        <tr>
+                            <td valign="top" align="right" class="font999">业务日期</td>
+                            <td class="font14" id="tdBusiDateTime"></td>
+                        </tr>
+                        <tr>
+                            <td valign="top" align="right" class="font999">项目名称</td>
+                            <td class="font14" id="tdProject"></td>
+                        </tr>
+                        <tr>
+                            <td valign="top" align="right" class="font999">收入账户</td>
+                            <td class="font14" id="tdAccount"></td>
+                        </tr>
+                        <tr>
+                            <td valign="top" align="right" class="font999">经手人</td>
+                            <td class="font14" id="tdOperator"></td>
+                        </tr>
+                        <tr>
+                            <td valign="top" align="right" class="font999">金额</td>
+                            <td class="font14 fontBlue" id="tdCapitalAmt"></td>
+                        </tr>
+                        <tr>
+                            <td valign="top" align="right" class="font999">备注</td>
+                            <td class="font14" id="tdCapitalRemark" style="word-break:break-all"></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td><a class=" button" onclick="$('#divAdd').slideToggle('fast');$('#divDetail').slideToggle('fast');">返回新增</a></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <!-- quickAdd -->
+        </td>
+    </tr>
+</table>
+<script type="text/javascript">
+    $(function () {
+        //验证帐套状态
+        var sobState = GetSOBState(false);
+        if (sobState == "2") {
+            Dialog.alert("该账套已封账，不能操作！", function () {
+                window.location.href = "./List";
+            });
+            return;
+        } else
+            if (sobState == "3") {
+                parent.$.messager.confirm('系统提示', '提示：当前帐套正在盘点中，请先解除盘点锁定！', function (r) {
+                    if (r) {
+                        parent.childAddTab('历史盘点', '/StoreReserve/List/', '慧管货');
+                    }
+                });
+                return;
+            } else if (sobState != "1") {
+                parent.$.messager.confirm('系统提示', '提示：当前帐套不是开账状态，请先开账！', function (r) {
+                    if (r) {
+                        parent.childAddTab('帐套管理', '/SOB/List', '系统设置');
+                    }
+                });
+                return;
+            }
+    });
+    // 重新加载数据
+    function reload() {
+        MVCPage(getPageParams());
+    }
+    function ValidateNo(capitalNo) {
+        var NIVal = -1;
+        $.ajax({
+            dataType: "json",
+            data: { capitalNo: capitalNo },
+            cache: false,
+            async: false,
+            url: "/InComeAndPay/ValidateNo/?" + Math.random(),
+            type: "post",
+            success: function (data) {
+                NIVal = data.Data;
+            },
+            error: function () {
+                Dialog.alert("失败");
+            }
+        });
+        return NIVal;
+    }
+    //记收支
+    function doIncome() {
+        var sobState = GetSOBState(false);
+        if (sobState == "2") {
+            Dialog.alert("该账套已封账，不能操作！", function () {
+                window.location.href = "./List";
+            });
+            return;
+        } else {
+            if (sobState == "3") {
+                parent.$.messager.confirm('系统提示', '提示：当前帐套正在盘点中，请先解除盘点锁定！', function (r) {
+                    if (r) {
+                        parent.childAddTab('历史盘点', '/StoreReserve/List/', '慧管货');
+                    }
+                });
+                return;
+            } else if (sobState != "1") {
+                parent.$.messager.confirm('系统提示', '提示：当前帐套不是开账状态，请先开账！', function (r) {
+                    if (r) {
+                        parent.childAddTab('帐套管理', '/SOB/List', '系统设置');
+                    }
+                });
+                return;
+            }
+        }
+        var param = {};
+        param["model.CapitalNo"] = $("input[name='CapitalNo']").val().trim();
+        param["model.ProjectType"] = $("#SearchType").val().trim();
+        param["model.CapitalRemark"] = $("#CapitalRemark").val().trim();
+        param["model.BusiDateTime"] = $("#BusiDateTime").val().trim();
+        param["model.AccountId"] = $("#selAccount").find("option:selected").val().trim();
+        //param["model.ProjectId"] = $("#selProject").find("option:selected").val();
+        param["model.ProjectId"] = $("input[name='selProject']").val().trim();
+        param["model.ProjectName"] = $("input[name='selProject']").val().trim();
+        param["model.OperatorId"] = $("#selOperator").find("option:selected").val();
+        param["model.CapitalAmt"] = $("#CapitalAmt").val().trim();
+        //单据编号
+        if (param["model.CapitalNo"] == "") {
+            ShowMsg("单据编号不能为空");
+            return;
+        }
+        if (!CheckProductWord(param["model.CapitalNo"])) {
+            ShowMsg("单据编号必须为字母、数字或下划线，且不超过20个字符。");
+            return;
+        }
+        //单据编号
+        if (ValidateNo(param["model.CapitalNo"]) == "0") {
+            ShowMsg("单据编号重复");
+            return;
+        }
+        if (param["model.BusiDateTime"] == "") {
+            ShowMsg("请输入业务日期");
+            return;
+        }
+        if (typeof (param["model.ProjectId"]) == 'undefined' || param["model.ProjectId"] == "" || param["model.ProjectName"] == "") {
+            ShowMsg("请选择项目");
+            return;
+        }
+        if (typeof (param["model.AccountId"]) == 'undefined' || param["model.AccountId"] == "") {
+            ShowMsg("请选择账户");
+            return;
+        }
+        if (param["model.OperatorId"] == "") {
+            ShowMsg("请选择经手人");
+            return;
+        }
+        if (param["model.CapitalAmt"] == "") {
+            ShowMsg("请输入金额");
+            return;
+        }
+        if (!isNumber(param["model.CapitalAmt"])) {
+            ShowMsg("金额格式不正确");
+            return;
+        }
+        var SearchType = request("SearchType");
+        $.post("/InComeAndPay/DoIncomeAndPay/", param, function (result, resultState) {
+            if (resultState == "success") {
+                if (result == "1") {
+                    if (SearchType==null || SearchType=='' || SearchType == "1") {
+                        Dialog.alert("记收入成功");
+                    }
+                    else {
+                        Dialog.alert("记支出成功");
+                    }
+                    reload();
+                }
+                else {
+                    if (SearchType == "1") {
+                        Dialog.alert("记收入失败");
+                    }
+                    else {
+                        Dialog.alert("记支出失败");
+                    }
+                }
+            } else {
+                if (SearchType == "1") {
+                    Dialog.alert("记收入失败");
+                }
+                else {
+                    Dialog.alert("记支出失败");
+                }
+            }
+        });
+    }
+
+    //查看明细
+    function ViewDetail(CapitalNo, CapitalRemark, BusiDateTime, Account, Project, Operator, CapitalAmt) {
+        $("#tdCapitalNo").text(CapitalNo);
+        $("#tdCapitalRemark").text(CapitalRemark);
+        $("#tdBusiDateTime").text(BusiDateTime);
+        $("#tdAccount").text(Account);
+        $("#tdProject").text(Project);
+        $("#tdOperator").text(Operator);
+        $("#tdCapitalAmt").text(CapitalAmt + ' 元');
+        $("#divAdd").slideUp('fast');
+        $("#divDetail").slideDown('fast');
+    }
+
+    function WriteBack(arg) {
+        if (!AddOrEditBySOBState('', false)) {
+            return;
+        }
+        parent.$.messager.confirm('系统提示', '确定要作废这张单据吗？', function (r) {
+            if (r) {
+                executeAjax("/InComeAndPay/WriteBack/", arg, "作废收支", "reload()");
+            }
+        });
+    }
+    // 导出
+    function Export() {
+        $("form").attr("action", "Export").submit();
+        $("form").attr("action", "List");
+    }
+    function getPageParams() {
+        var writeBack = "";
+        if ($("#chkZF").attr("checked")) {
+            writeBack = 0;
+        }
+        else {
+            writeBack = 1;
+        }
+        return [
+        { name: 'SearchKey', value: $("#SearchKey").val() },
+        { name: 'SearchCapitalNo', value: $("#SearchCapitalNo").val() },
+        { name: 'SearchBusiDate', value: $("#SearchBusiDate").val() },
+        { name: 'SearchBusiDateEnd', value: $("#SearchBusiDateEnd").val() },
+        { name: 'ProjectId', value: $("#ProjectId").val() },
+        { name: 'Advanced', value: $("#hidAdvanced").val() },
+        { name: 'SearchType', value: $("#SearchType").val() },
+        { name: 'WriteBack', value: writeBack }
+        ];
+    }
+    $(function () {
+        //初始化查询方式
+        var advanced = request("advanced");
+        var writeBack = request("WriteBack");
+        if (writeBack == "" || writeBack == "0") {
+            $("#chkZF").attr("checked", true);
+        }
+        else {
+            $("#chkZF").attr("checked", false);
+        }
+        if (advanced == "1") {
+            $("#hidAdvanced").val(1);
+            $("#simpleSearch").hide();
+            $(".searchAdvanced").show();
+            //$("#aAdvanced").text("简单搜索");
+            $("#aAdvanced").addClass("searchAdvancedS");
+        } else {
+            $("#hidAdvanced").val(0);
+            $("#simpleSearch").show();
+            $(".searchAdvanced").hide();
+            //$("#aAdvanced").text("高级搜索");
+            $("#aAdvanced").removeClass("searchAdvancedS");
+        }
+        //高级查询按钮
+        $("#aAdvanced").click(function () {
+            if ($("#hidAdvanced").val() == "0") {
+                $("#hidAdvanced").val(1);
+                $("#simpleSearch").hide();
+                //$("#aAdvanced").text("简单搜索")
+                $("#aAdvanced").addClass("searchAdvancedS");
+            } else {
+                $("#hidAdvanced").val(0);
+                $("#simpleSearch").show();
+                //$("#aAdvanced").text("高级搜索");
+                $("#aAdvanced").removeClass("searchAdvancedS");
+            }
+            $(".searchAdvanced").slideToggle("slow");
+        });
+
+    })
+</script>
+
+                <div class="footer">
+                    <div class="fl"><span class="fontOrange">客服热线：400-855-1002</span> 产品网站：<a href="http://www.joyinwise.com" class="font999" target="_blank">http://www.joyinwise.com</a><br />
+                        智慧商贸 V2.9 版权所有: 安徽兆尹信息科技有限责任公司 Copyright © 2011-2014 All Rights Reserved</div>
+                    <div class="fr">
+                        <img src="../../Content/themes/default/images/qrhome.png" width="157" height="54" />
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            eval("");
+            parent.$("#divLoading").hide();
+            var errMsg = $(".validation-summary-errors").text();
+            if (errMsg) {
+                Dialog.alert(errMsg);
+            }
+        });
+
+        function AjaxStart() {
+            parent.$("#divLoading").show();
+        }
+        function AjaxStop() {
+            parent.$("#divLoading").hide();
+        }
+
+    </script>
+    <script type="text/javascript">
+        function OpenQuickForm(vwidth, vheight, vpos, vsrc) {
+            $("#divQuickForm iframe").css("width", vwidth);
+            $("#divQuickForm iframe").css("height", vheight);
+            $("#divQuickForm iframe").attr("src", vsrc);
+            $("#divQuickForm").css("right", vpos);
+            $("#divQuickForm").show();
+        }
+
+        function CloseQuickForm() {
+            $("#divQuickForm").hide();
+        }
+
+        $(function () {
+            $("li a").click(function () {
+                if (typeof ($(this).find("span[name='navspan']").attr("class")) != "undefined") {
+                    $("span[name='spanDt']").hide();
+                    $("span[name='navspan']").attr("class", "plus");
+                    $("#dt_" + $(this).attr("index")).show();
+                    $(this).find("span[name='navspan']").attr("class", "short");
+                }
+            });
+            //头部当前选中的ID
+            var firstCurrentId = $(".menuRS").attr("index");
+            //左边菜单当前选中的ID
+            var currentId = $("li .nav2S a").attr("id");
+
+            if (firstCurrentId) {
+                //左边当前选中样式
+                $("div.create_menu").hide();
+                $("#secMenu_" + $("#" + firstCurrentId).attr("index")).show();
+            }
+            if (currentId) {
+                //头部当前选中样式
+                $(".menuRS").attr("class", "menuR");
+                $("#firstRes_" + currentId.split('_')[1]).parent().attr("class", "menuRS");
+                //左边当前选中菜单   
+                $(".nav1S").attr("class", "nav1");
+                $("#nav" + currentId.split('_')[2]).attr("class", "nav1S");
+
+                //左边收起其他菜单 
+                $("#dt_" + currentId.split('_')[2]).show();
+                $("#dt_" + currentId.split('_')[2]).parent().find("span[name='navspan']").attr("class", "short");
+
+                //当前位置
+                //$("#curPos").html($("li .current").attr("pos"));
+                var curObj = $("li .current");
+                if (curObj.length == 2) {
+                    $("#curPos").html($(curObj[1]).attr("pos"));
+                } else {
+                    $("#curPos").html($(curObj[0]).attr("pos"));
+                }
+            }
+        });
+
+        function exLeft() {
+            if ($(".nav").is(":visible")) {
+                $(".nav").hide();
+                $(".navBg").attr("width", "10");
+                $(".hiddenNav").attr("class", "hiddenNav2");
+            }
+            else {
+                $(".nav").show();
+                $(".navBg").attr("width", "225");
+                $(".hiddenNav2").attr("class", "hiddenNav");
+            }
+        }
+
+        function outLeft() {
+            $(".nav").show();
+            $(".navBg").attr("width", "225");
+            $(".hiddenNav2").attr("class", "hiddenNav");
+        }
+    </script>
+    <div style="display:none">
+    <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        //document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F21bfb059bc18ae42be9caea3a8b358ca' type='text/javascript'%3E%3C/script%3E"));
+    </script></div>
+</body>
+</html>
+<script type="text/javascript">
+    var _controller = "InComeAndPay";
+    var _action = "List";
+    var _url = decodeURI("http://joyinwise.com/InComeAndPay/List");
+    var _source = decodeURI("http://joyinwise.com/HomePage/Welcome");
+    $.ajax({
+        type: "GET",
+        url: "/behavior/log?" + Math.random(),
+        data: "control=" + _controller + "&action=" + _action + "&url=" + _url + "&source=" + _source
+    });
+</script>

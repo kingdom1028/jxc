@@ -1,0 +1,823 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>智慧商贸
+新增盘点单    </title>
+    <script src="/Content/jquery-easyui/jquery-1.7.2.min.js?v2.9.5" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="/Content/themes/default/css/style.css?v2.9.5" />
+    <link rel="stylesheet" type="text/css" href="/Content/jquery-easyui/themes/default/easyui.css?v2.9.5" />
+    <link rel="stylesheet" type="text/css" href="/Content/jquery-easyui/themes/icon.css?v2.9.5" />
+    <script src="/Scripts/jquery.validate-1.11.1.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/jquery.validate.unobtrusive.min.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/modernizr-1.7.min.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Content/My97DatePicker/WdatePicker.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/PropertyManager.js?v2.9.5" type="text/javascript"></script> 
+    <script src="/Scripts/SelectProducts.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/GetState.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Content/jquery-easyui/jquery.easyui.min.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/PERM.js?2013?v2.9.5" type="text/javascript"></script>
+    <script type="text/javascript" src="/Scripts/jquery.unobtrusive-ajax.min.js?v2.9.5"></script>
+    <script src="/Scripts/MVCPage.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/jquery_validator_message_cn.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/PageLoading.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/ChinesePY.js?v2.9.5" type="text/javascript"></script> 
+    <!--PNG透明-->
+    <!--[if lte IE 6]>
+    <script src="/Scripts/DD_belatedPNG_0.0.8a.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            DD_belatedPNG.fix('*');
+        </script>
+    <![endif]-->
+</head>
+<body>
+    <div id="loading"></div>
+    <table style="min-width: 882px;" width="100%" border="0" height="610" cellspacing="0" cellpadding="0">
+        <tr>
+            <td valign="top" bgcolor="#e6e6e8" class="main">
+                <script src="/Scripts/jquery.autocomplete.min.js" type="text/javascript"></script>
+<style type="text/css">
+    .tipDiag {
+        position: absolute;
+        padding: 3px;
+        font-size: 12px;
+        border: 1px solid #C00;
+        background: #FE8;
+        color: #C00;
+        display: none;
+    }
+</style>
+<form action="/StoreReserve/AddRecords" method="post"><input data-val="true" data-val-required="The TakBillId field is required." id="TakBillId" name="TakBillId" type="hidden" value="b93ee927-ad18-4de7-948c-882aa38f4f3c" /><input data-val="true" data-val-required="The CreateDate field is required." id="CreateDate" name="CreateDate" type="hidden" value="2014/2/15 12:25:26" /><input data-val="true" data-val-required="The CreateUserId field is required." id="CreateUserId" name="CreateUserId" type="hidden" value="18cb32bc-f5dd-4704-870b-26bbad60006e" /><input data-val="true" data-val-number="字段 IsPrint 必须是一个数字。" data-val-required="The IsPrint field is required." id="IsPrint" name="IsPrint" type="hidden" value="0" /><input data-val="true" data-val-number="字段 IsReturnUrl 必须是一个数字。" data-val-required="The IsReturnUrl field is required." id="IsReturnUrl" name="IsReturnUrl" type="hidden" value="0" /><input id="IsOpenProductSN" name="IsOpenProductSN" type="hidden" value="0" />    <table width="100%" border="0" cellspacing="0" cellpadding="0" height="500">
+        <tr>
+            <td valign="top">
+                <div class="buttonArea">
+                    <div class="left">
+                        <a class="button blueButton" onclick="SaveData(2);">现在开始盘点</a>
+                        <a class="button" onclick="SaveData(1);">保存稍后盘点</a>
+                    </div>
+                    <!-- left -->
+                    <div class="right"><a class="button greenButton" onclick="parent.childAddTab('历史盘点单','/StoreReserve/List','慧管货')">历史单据</a> </div>
+                    <!-- right -->
+                </div>
+                <!-- buttonArea -->
+
+                <div class="clear height10"></div>
+                <div class="shadowBoxWhite receipts">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="5" class="title">
+                        <tr>
+                            <td width="30%" height="50">&nbsp;</td>
+                            <td width="40%" align="center" valign="top" class="text">库存盘点单</td>
+                            <td width="30%" align="right" valign="bottom" class="font999" style="padding-bottom: 20px;">单据编号：<input class="codeEdit" id="TakBillNo" name="TakBillNo" onchange="calBillNo()" type="text" value="PD20140215006" /></td>
+                        </tr>
+                    </table>
+                    <div class="baseData">
+                        <div class="fl">
+                            <span>盘点仓库&nbsp;
+                            <select id="WarehouseId" name="WarehouseId" onchange="SetWarehouse()" style="width:120px"><option selected="selected" value="711a19d7-052c-46c0-9e21-e614aafc3028">默认仓库</option>
+</select></span>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <a class="choseGoods" onclick="selProducts($('#WarehouseId').find('option:selected').val())">批量添加商品</a>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span>是否需要打印
+                            <input type="checkbox" name="chkPrint" id="chkPrint" /></span>
+                        </div>
+                        <div class="fr">
+                            <table>
+                                <tr>
+                                    <td>经手人</td>
+                                    <td><select class="inputSelect" data-val="true" data-val-required="The 经办人 field is required." id="OperatorId" name="OperatorId"><option selected="selected" value="18cb32bc-f5dd-4704-870b-26bbad60006e">管理员</option>
+</select></td>
+                                    <td>业务日期</td>
+                                    <td>
+                                <input id="TheLstBalDate" name="TheLstBalDate" type="hidden" value="1900-01-01" />
+                                <input class="inputText" data-val="true" data-val-required="请输入业务日期" id="TakingDate" name="TakingDate" onClick="WdatePicker({minDate:&#39;#F{$dp.$D(\&#39;TheLstBalDate\&#39;)}&#39;})" readonly="true" size="10" type="text" value="2014-02-15" /></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="clear height10"></div>
+                    <div class="tableDiv">
+                        <ul style="display: none;">
+                            <li id="SNLiTemp"><span class="snNum">1</span><span class="snText">xxx1111</span></li>
+                        </ul>
+                        <table width="100%" border="0" cellspacing="1" cellpadding="5" id="tabProducts">
+                            <tr>
+                                <th width="60" height="60" align="center" valign="middle">序号</th>
+                                <th align="left" valign="middle">商品名称/规格</th>
+                                <th align="center" width="130" valign="middle">商品编号</th>
+                                <th width="50" align="center" valign="middle">单位</th>
+                                <th width="100" align="center" valign="middle">分类</th>
+                                <th width="65" align="center" valign="middle">数量</th>
+                                <th width="180" align="left" valign="middle">备注</th>
+                            </tr>
+                            <tr id="trTmp" style="display: none;">
+                                <td align="center" valign="middle" bgcolor="#FFFFFF">
+                                    <span id="orderdiv" class="num"></span>
+                                    <span class="actionArea"><a href="javascript:;" class="plusLite" onclick="addRow(this);InitOrder();"></a>
+                                        <a href="javascript:;" class="delLite" onclick="deleteRow(this);"></a></span>
+                                </td>
+                                <td align="left" valign="middle" bgcolor="#FFFFFF">
+                                    <table width="100%" cellpadding="0" cellspacing="0" border="0" class="chose">
+                                        <tr>
+                                            <td align="left">
+                                                <input type="text" style="text-align: left;" class="receiptsInputText" autocomplete="true" name="showProductName" /></td>
+                                            <td width="50" align="right"><a class="choseGoods" style="display: none;" onclick="SelectWareProductByBusiStore(this.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode,'Sale',$('#WarehouseId').find('option:selected').val(),$('#IsOpenProductSN').val())">选择</a></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td align="left" valign="middle" bgcolor="#FFFFFF">
+                                    <input type="hidden" name="hidProductId" />
+                                    <input type="text" class="receiptsInputText" autocomplete="true" style="width: 120px" name="showProductCode" />
+                                </td>
+                                <td align="center" valign="middle" bgcolor="#FFFFFF"></td>
+                                <td align="center" valign="middle" bgcolor="#FFFFFF"></td>
+                                <td align="center" valign="middle" bgcolor="#FFFFFF">
+                                    <input type="hidden" name="hidCurStockCount" />
+                                    <input type="text" class="receiptsInputText" name="showCurStockCount" style="width: 40px" />
+                         
+                                    <a class="sn" style="display: none;">
+                                        <div id="snlist" class="snList" style="display: none;">
+                                            <ul>
+                                                <li><span class="snNum">1</span><span class="snText">xxx1111</span></li>
+                                            </ul>
+                                        </div>
+                                    </a>
+                                    
+                                </td>
+                                <td width="180" align="left" valign="middle" bgcolor="#FFFFFF"></td>
+                            </tr>
+                            <tr>
+                                <td valign="middle" align="center" bgcolor="#FFFFFF" class="font14">备注</td>
+                                <td bgcolor="#FFFFFF" colspan="6">
+                                    <textarea class="receiptsInputText textl" cols="20" id="BillRemark" name="BillRemark" rows="2" style="height:40px;">
+</textarea>　</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <!-- tableDiv -->
+                    <div class="bottomButtonArea">
+                        <div class="left font999">制单人：管理员&nbsp;&nbsp;&nbsp;&nbsp;制单时间：2014-02-15 12:25</div>
+                        <div class="right">
+                            <a class="button" onclick="selProducts($('#WarehouseId').find('option:selected').val())">继续添加盘点商品</a>
+                            <a class="button" onclick="closethistab('库存盘点');">取消</a>
+                            <a class="button" onclick="SaveData(1);">保存稍后盘点</a>
+                            <a class="button blueButton" onclick="SaveData(2);">现在开始盘点</a>
+                        </div>
+                    </div>
+                    <!-- buttonArea -->
+                </div>
+                <!-- receipts -->
+            </td>
+        </tr>
+    </table>
+    <input type="hidden" id="hidpop" value="0" />
+    <input type="hidden" id="hidwarehousename" value="0" />
+</form>
+<script type="text/javascript">
+    var flag = 0;
+    var temp = AddOrEditBySOBState('', true);
+    if (!temp) {
+        window.location.href = "/StoreReserve/List";
+    }
+    $(function () {
+        //打印
+        var rememberPrint = "0";
+        var isPrint = requestUrlPara("IsPrint");
+        if (isPrint == 1) {
+            $("#chkPrint").attr("checked", "checked");
+        } else {
+            if (rememberPrint == "1") {
+                $("#chkPrint").attr("checked", "checked");
+            } else if (rememberPrint == "0") {
+                $("#chkPrint").removeAttr("checked");
+            }
+        }
+        var takBillId = requestUrlPara("TakBillId");
+        var isReturnUrl = requestUrlPara("IsReturnUrl");
+        if (isReturnUrl == 2) {
+            parent.childAddTab('盘点', '/StoreReserve/Inventory/?TakBillId=' + takBillId, '慧管货')
+        } else if (isReturnUrl == 1) {
+            parent.childAddTab('历史盘点单', '/StoreReserve/List', '慧管货')
+        }
+        if (isPrint == 1) {
+            window.open("/HomePage/PrintReport?ReportGrf=StoreReserve.grf&DataUrl=/PrintReportData/PrintStoreReserve?Paras=" + takBillId + ";1");
+        }
+
+    });
+    // 选择商品点击OK处理填充数据
+    function SelectProductOK(tempJson, obj) {
+        var i = 0, j = 0;
+        var serial = "0";
+        var productHid = $("input:hidden[name='hidProductId']");
+        var tempHidValue = "";
+        for (var n = 0; n < productHid.length;n++) {
+            tempHidValue = tempHidValue + "," + productHid[n].value;
+        }
+        
+        if (obj != null && tempJson.length > 0) {
+            if (tempHidValue.indexOf(tempJson[i]["ID"]) > 0) {
+                return;
+            }
+            $(obj).children('td').eq(1).find('input[name="showProductName"]').val(tempJson[i]["Name"]);
+            $(obj).children('td').eq(1).find('input[name="showProductName"]').attr("readonly", "readonly");
+            $(obj).children('td').eq(1).find('input[name="showProductName"]').attr("unselectable", "on");
+            $(obj).children('td').eq(2).find('input[name="showProductCode"]').val(tempJson[i]["Code"]);
+            $(obj).children('td').eq(2).find('input[name="showProductCode"]').attr("readonly", "readonly");
+            $(obj).children('td').eq(2).find('input[name="showProductCode"]').attr("unselectable", "on");
+            $(obj).children('td').eq(2).find('input[name="hidProductId"]').val(tempJson[i]["ID"]);
+            $(obj).children('td').eq(3).text(tempJson[i]["Unit"]);
+            $(obj).children('td').eq(4).text(tempJson[i]["Class"]);
+
+            $(obj).children('td').eq(5).find('input[name="showCurStockCount"]').val(tempJson[i]["Store"]);
+            $(obj).children('td').eq(5).find('input[name="showCurStockCount"]').attr("readonly", "readonly");
+            $(obj).children('td').eq(5).find('input[name="hidCurStockCount"]').val(tempJson[i]["Store"]);
+            $(obj).children('td').eq(6).text(tempJson[i]["Remark"]);
+            if (serial == "1") {
+                if (tempJson[i]["SNManage"] != "0") {
+                    $(obj).children('td').eq(5).find('.sn').show();
+                    GetSerialNoList($(obj).children('td').eq(5).find('.sn'), tempJson[i]["ID"]);
+                } else {
+                    $(obj).children('td').eq(5).find('.sn').hide();
+                }
+            }
+            i++;
+        }
+        for (; i < tempJson.length; i++) {
+            var rows = $("#tabProducts tr");
+            for (; j < rows.length; j++) {
+                if (i >= tempJson.length) break;
+                if (rows[j].rowIndex > obj.rowIndex && $(rows[j]).children('td').eq(2).find('input[name="hidProductId"]').length == 1 && $(rows[j]).attr("id") != "trTmp") {
+                    if (tempHidValue.indexOf(tempJson[i]["ID"]) > 0) {
+                        break;
+                    }
+                    $(rows[j]).children('td').eq(1).find('input[name="showProductName"]').val(tempJson[i]["Name"]);
+                    $(rows[j]).children('td').eq(1).find('input[name="showProductName"]').attr("readonly", "readonly");
+                    $(rows[j]).children('td').eq(1).find('input[name="showProductName"]').attr("unselectable", "on");
+                    $(rows[j]).children('td').eq(2).find('input[name="showProductCode"]').val(tempJson[i]["Code"]);
+                    $(rows[j]).children('td').eq(2).find('input[name="showProductCode"]').attr("readonly", "readonly");
+                    $(rows[j]).children('td').eq(2).find('input[name="showProductCode"]').attr("unselectable", "on");
+                    $(rows[j]).children('td').eq(2).find('input[name="hidProductId"]').val(tempJson[i]["ID"]);
+                    $(rows[j]).children('td').eq(3).text(tempJson[i]["Unit"]);
+                    $(rows[j]).children('td').eq(4).text(tempJson[i]["Class"]);
+                    $(rows[j]).children('td').eq(5).find('input[name="showCurStockCount"]').val(tempJson[i]["Store"]);
+                    $(rows[j]).children('td').eq(5).find('input[name="showCurStockCount"]').attr("readonly", "readonly");
+                    $(rows[j]).children('td').eq(5).find('input[name="showCurStockCount"]').attr("unselectable", "on");
+                    $(rows[j]).children('td').eq(5).find('input[name="hidCurStockCount"]').val(tempJson[i]["Store"]);
+                    $(rows[j]).children('td').eq(6).text(tempJson[i]["Remark"]);
+                    if (serial == "1") {
+                        if (tempJson[i]["SNManage"] != "0") {
+                            $(rows[j]).children('td').eq(5).find('.sn').show();
+                            GetSerialNoList($(rows[j]).children('td').eq(5).find('.sn'), tempJson[i]["ID"]);
+                        } else {
+                            $(rows[j]).children('td').eq(5).find('.sn').hide();
+                        }
+                    }
+                    i++;
+                }
+            }
+            if (i < tempJson.length) {
+                if (tempHidValue.indexOf(tempJson[i]["ID"]) > 0) {
+                    break;
+                }
+                var trTmp = $("#trTmp").clone();
+                trTmp.attr("id", "");
+                trTmp.show();
+                trTmp.children('td').eq(1).find('input[name="showProductName"]').val(tempJson[i]["Name"]);
+                trTmp.children('td').eq(1).find('input[name="showProductName"]').attr("readonly", "readonly");
+                trTmp.children('td').eq(1).find('input[name="showProductName"]').attr("unselectable", "on");
+                trTmp.children('td').eq(2).find('input[name="showProductCode"]').val(tempJson[i]["Code"]);
+                trTmp.children('td').eq(2).find('input[name="showProductCode"]').attr("readonly", "readonly");
+                trTmp.children('td').eq(2).find('input[name="showProductCode"]').attr("unselectable", "on");
+                trTmp.children('td').eq(2).find('input[name="hidProductId"]').val(tempJson[i]["ID"]);
+                trTmp.children('td').eq(3).text(tempJson[i]["Unit"]);
+                trTmp.children('td').eq(4).text(tempJson[i]["Class"]);
+                trTmp.children('td').eq(5).find('input[name="showCurStockCount"]').val(tempJson[i]["Store"]);
+                trTmp.children('td').eq(5).find('input[name="showCurStockCount"]').attr("readonly", "readonly");
+                trTmp.children('td').eq(5).find('input[name="showCurStockCount"]').attr("unselectable", "on");
+                trTmp.children('td').eq(5).find('input[name="hidCurStockCount"]').val(tempJson[i]["Store"]);
+                trTmp.children('td').eq(6).text(tempJson[i]["Remark"]);
+                if (serial == "1") {
+                    if (tempJson[i]["SNManage"] != "0") {
+                        trTmp.children('td').eq(5).find('.sn').show();
+                        GetSerialNoList(trTmp.children('td').eq(5).find('.sn'), tempJson[i]["ID"]);
+                    } else {
+                        trTmp.children('td').eq(5).find('.sn').hide();
+                    }
+                }
+                trTmp.insertBefore($("#trTmp"));
+            }
+        }
+        if ($("#tabProducts tr[id!='trTmp']").find("input:text[autoComplete='true']").length < 1) {
+            addRow();
+        }
+        //计算总金额
+        InitOrder();
+        $("#tabProducts tr").mouseover(function () {
+            $(this).find('.choseGoods').show();
+        }).mouseout(function () {
+            $(this).find('.choseGoods').hide();
+        });
+        showSnList();
+    }
+    // 添加关联进货单对应的商品
+    function AddProductByClass(tempJson) {
+        //验证是否选择了商品
+        var serial = "0";
+        var productHid = $("input:hidden[name='hidProductId']");
+        var tempHidValue = "";
+        for (var i = 0; i < productHid.length; i++) {
+            tempHidValue = tempHidValue + "," + productHid[i].value;
+        }
+        for (var i = 0; i < tempJson.length; i++) {
+            
+            if (tempHidValue.indexOf(tempJson[i]["ID"]) > 0) {
+                continue;
+            }
+            var trTmp = $("#trTmp").clone();
+            trTmp.attr("id", "");
+            trTmp.show();
+
+            trTmp.children('td').eq(1).find('input[name="showProductName"]').val(tempJson[i]["Name"]);
+            trTmp.children('td').eq(1).find('input[name="showProductName"]').attr("readonly", "readonly");
+            trTmp.children('td').eq(1).find('input[name="showProductName"]').attr("unselectable", "on");
+            trTmp.children('td').eq(2).find('input[name="showProductCode"]').val(tempJson[i]["Code"]);
+            trTmp.children('td').eq(2).find('input[name="showProductCode"]').attr("readonly", "readonly");
+            trTmp.children('td').eq(2).find('input[name="showProductCode"]').attr("unselectable", "on");
+            trTmp.children('td').eq(2).find('input[name="hidProductId"]').val(tempJson[i]["ID"]);
+            trTmp.children('td').eq(3).text(tempJson[i]["Unit"]);
+            trTmp.children('td').eq(4).text(tempJson[i]["Class"]);
+            trTmp.children('td').eq(5).find('input[name="showCurStockCount"]').val(tempJson[i]["Store"]);
+            trTmp.children('td').eq(5).find('input[name="showCurStockCount"]').attr("readonly", "readonly");
+            trTmp.children('td').eq(5).find('input[name="showCurStockCount"]').attr("unselectable", "on");
+            trTmp.children('td').eq(5).find('input[name="hidCurStockCount"]').val(tempJson[i]["Store"]);
+            trTmp.children('td').eq(6).text(tempJson[i]["Remark"]);
+            if (serial == "1") {
+                if (tempJson[i]["SNManage"] != "0") {
+                    trTmp.children('td').eq(5).find('.sn').show();
+                    GetSerialNoList(trTmp.children('td').eq(5).find('.sn'), tempJson[i]["ID"]);
+                } else {
+                    trTmp.children('td').eq(5).find('.sn').hide();
+                }
+            }
+            trTmp.insertBefore($("#trTmp"));
+        }
+        InitOrder();
+        $("#tabProducts tr").mouseover(function () {
+            $(this).find('.choseGoods').show();
+        }).mouseout(function () {
+            $(this).find('.choseGoods').hide();
+        })
+        showSnList();
+    }
+    //添加行
+    function addRow(obj) {
+        var trTmp = $("#trTmp").clone();
+        var tempRow = document.getElementById("trTmp");
+        var temRowIndex = 0;
+        trTmp.attr("id", "");
+        trTmp.show();
+        if (obj == null) {
+            trTmp.insertBefore($("#trTmp"));
+            obj = trTmp;
+            obj.rowIndex = tempRow.rowIndex - 1;
+        }
+        else {
+            trTmp.insertAfter(obj.parentNode.parentNode.parentNode);
+            temRowIndex = obj.parentNode.parentNode.parentNode.rowIndex + 1;
+            obj = trTmp;
+            obj.rowIndex = temRowIndex;
+        }
+        var autoCompleteTextbox = trTmp.find("input:text[autoComplete='true']");
+        if (!!autoCompleteTextbox) {
+            //智能提示
+            var productheader = { ProductCode: "商品编号", ProductName: "商品名称", Barcode: "条形码" };
+            autoCompleteTextbox.each(function () {
+                $(this).autoComplete({
+                    header: productheader,
+                    url: "/shared/queryproduct?WarehouseId=" + $('#WarehouseId').find('option:selected').val(),
+                    width: 400,
+                    selected: function (o) {
+                        $.ajax({
+                            dataType: "json",
+                            data: {
+                                productId: o.ProductId,
+                                warehouseId: $('#WarehouseId').find('option:selected').val()
+                            },
+                            url: "/shared/GetProductStock",
+                            cache: false,
+                            type: "post",
+                            async: false,
+                            success: function (r) {
+                                if (r != "null") {
+                                    o.Store = r;
+                                }
+                            },
+                            error: function () {
+                            }
+                        });
+                        var jsonn = [];
+                        var value = {
+                            "ID": o.ProductId,
+                            "Code": o.ProductCode,
+                            "Name": o.ProductName,
+                            "Form": o.From,
+                            "Class": o.Class,
+                            "Unit": o.Unit,
+                            "Store": o.Store,
+                            "UnitCode": o.UnitCode,
+                            "Remark": o.Remark
+                        };
+                        jsonn.push(value);
+                        SelectProductOK(jsonn, obj);
+                    }
+                });
+            });
+
+        }
+        $("#tabProducts tr").mouseover(function () {
+            $(this).find('.choseGoods').show();
+        }).mouseout(function () {
+            $(this).find('.choseGoods').hide();
+        });
+        
+    }
+    //删除行
+    function deleteRow(obj) {
+        obj.parentNode.parentNode.parentNode.parentNode.removeChild(obj.parentNode.parentNode.parentNode);
+
+        if ($("#tabProducts tr[id!='trTmp']").find("input:text[autoComplete='true']").length <= 1) {
+            addRow();
+        }
+        $("#tabProducts tr[id!='trTmp']").find("input:text[autoComplete='true']").first().focus();
+        InitOrder();
+    }
+    function SetWarehouse() {
+        //清除之前选择的单据商品
+        var productHid = $('input[name="hidProductId"]');
+        for (var i = 0; i < productHid.length; i++) {
+            if ($(productHid[i]).val() != '') {
+                productHid[i].parentNode.parentNode.parentNode.removeChild(productHid[i].parentNode.parentNode);
+            }
+        }
+    }
+    //初始化序号
+    function InitOrder() {
+        var rows = $("#tabProducts tr");
+        var orders = 1;
+        for (var i = 0; i < rows.length; i++) {
+            if ($(rows[i]).children('td').eq(2).find('input[type="hidden"]').length == 1 && $(rows[i]).attr("id") != "trTmp") {
+                $(rows[i]).children('td').eq(0).children('#orderdiv').text(orders);
+                orders++;
+            }
+        }
+    }
+    function selProducts(wareId) {
+        var type = $("#hidpop").val();
+        if (type == "0" || wareId != $("#hidwarehousename").val()) {
+            parent.$('#openStore').dialog({
+                title: '选择商品',
+                width: 900,
+                height: 580,
+                closed: false,
+                cache: false,
+                modal: true,
+                maximizable: true,
+                resizable: true,
+                buttons: [{
+                    text: '确定',
+                    handler: function () {
+                        var tempJson = parent.$('#openStoreIframe')[0].contentWindow.initData();
+                        parent.$('#openStore').dialog('close');
+                    }
+                }, {
+                    text: '取消',
+                    handler: function () { parent.$('#openStore').dialog('close') }
+                }]
+            });
+            parent.$('#openStoreIframe')[0].src = "/HomePage/SelectProductsByClass/?WarehouseId=" + wareId;
+            parent.$('#openStore').dialog('open');
+            $("#hidpop").val("1");
+            $("#hidwarehousename").val(wareId);
+        }
+        else {
+            parent.$('#openStore').dialog('open');
+        }
+    }
+    function Export(arg) {
+
+        $("form").attr("action", "/StoreReserve/Export?TakingBillId=" + arg);
+        $("form").attr("target", "_blank");
+        $("#query").click();
+        //$("form").attr("action", "/StoreReserve/List");
+        window.location.href = './List';
+    }
+
+    //保存 1.保存 2.保存盘点
+    function SaveData(type) {
+        var temp = AddOrEditBySOBState('', true);
+        if (temp) {
+
+            //验证打印权限
+            if (checkRealCount(0)) {
+                var isPrint = $("#chkPrint").attr("checked");
+                if (type == 2) {
+                    $("#IsReturnUrl").val(2);
+                }
+                else {
+                    $("#IsReturnUrl").val(1);
+                }
+                if (isPrint) {
+                    $("#IsPrint").val(1);
+                } else {
+                    $("#IsPrint").val(0);
+                }
+                $("form").submit();
+            }
+        }
+        else {
+            Dialog.alert("当前帐套未锁定,无法保存盘点单,请先锁定帐套！");
+        }
+    }
+    function ValidateNo(billNo) {
+        var NIVal = -1;
+        $.ajax({
+            dataType: "json",
+            data: { billNo: billNo },
+            cache: false,
+            async: false,
+            url: "/StoreReserve/ValidateNo/?" + Math.random(),
+            type: "post",
+            success: function (data) {
+                NIVal = data.Data;
+            },
+            error: function () {
+                Dialog.alert("失败");
+            }
+        });
+        return NIVal;
+    }
+    function calBillNo() {
+        var billNo = $("#TakBillNo").val().trim();
+        if (billNo == "") {
+            Dialog.alert("请输入单据编号");
+            return;
+        };
+        if (!CheckWord(billNo)) {
+            return;
+        }
+        var temp = ValidateNo(billNo);
+        if (temp == "0") {
+            Dialog.alert("单据编号重复");
+            return;
+        }
+    }
+    //提交表单验证
+    function ValidateForm() {
+        //单据编号
+        if ($("#TakBillNo").val().trim() == "") {
+            Dialog.alert("请输入单据编号。", function () {
+                $("#TakBillNo").addClass("input-validation-error");
+            });
+            return false;
+        }
+        if (!CheckWord($("#TakBillNo").val().trim())) {
+            $("#TakBillNo").addClass("input-validation-error");
+            return false;
+        }
+        if (ValidateNo($("#TakBillNo").val()) == "0") {
+            Dialog.alert("单据编号重复。", function () {
+                $("#TakBillNo").addClass("input-validation-error");
+            });
+            return false;
+        }
+        //经办人
+        if ($("#OperatorId").val() == '') {
+            Dialog.alert("请选择经手人。", function () {
+                $("#OperatorId").addClass("input-validation-error");
+            });
+            return false;
+        }
+        //分类
+        if ($("#ClassId").val() == '') {
+            Dialog.alert("请选择商品分类。", function () {
+                $("#ClassId").addClass("input-validation-error");
+            });
+            return false;
+        }
+        //业务日期
+        if ($("#TakingDate").val() == '') {
+            Dialog.alert("请选择业务日期。", function () {
+                $("#TakingDate").addClass("input-validation-error");
+            });
+            return false;
+        }
+        //验证是否选择了商品
+        var tempHidValue = "";
+        var productHid = $("input:hidden[name='hidProductId']");
+        for (var i = 0; i < productHid.length; i++) {
+            tempHidValue = tempHidValue + productHid[i].value;
+        }
+        if (tempHidValue == "") {
+            Dialog.alert("请选择商品。");
+            return false;
+        }
+        return true;
+    }
+
+    function checkRealCount(type) {
+
+        if (!ValidateForm()) {
+            return false;
+        }
+        return true;
+    }
+
+    function GetSerialNoList(obj,productId) {
+        $(obj).parent().find('ul li').remove();
+        var warehouseId = $('#WarehouseId').find('option:selected').val();
+        $.ajax({
+            dataType: "json",
+            data: { productId: productId, warehouseId: warehouseId, key: "" },
+            cache: false,
+            async: false,
+            url: "/HomePage/GetSNByPW/?" + Math.random(),
+            type: "post",
+            success: function (data) {
+                $.each(data, function (i, val) {
+                    var liTemp = $("#SNLiTemp").clone();
+                    liTemp.find(".snNum").text(i + 1);
+                    liTemp.find(".snText").text(val.SerialNo);
+                    $(obj).find('ul').append(liTemp);
+                });
+            },
+            error: function () {
+            }
+        });
+    }
+    function showSerialNo(obj) {
+        var i = $(obj).parent().find('ul li').length;
+        if (i > 0) {
+            $(obj).find('.snList').show();
+        }
+    }
+    function showSnList() {
+        $(".sn").hover(function () {
+            if ($(this).parent().find('ul li').length > 0) {
+                $(this).find(".snList").show();
+            }
+        }, function () {
+            $(this).find(".snList").hide();
+        });
+    }
+    function GetAllSerialNo(obj) {
+        $(obj).parent().find('ul li').remove();
+        var productId = $(obj).parent().parent().find('input[name="hidProductId"]').val();
+        var warehouseId = $('#WarehouseId').find('option:selected').val();
+        $.ajax({
+            dataType: "json",
+            data: { productId: productId, warehouseId: warehouseId, key: "" },
+            cache: false,
+            async: false,
+            url: "/HomePage/GetSNByPW/?" + Math.random(),
+            type: "post",
+            success: function (data) {
+                var j = 0;
+                $.each(data, function (i, val) {
+                    j++;
+                    var liTemp = $("#SNLiTemp").clone();
+                    liTemp.find(".snNum").text(i + 1);
+                    liTemp.find(".snText").text(val.SerialNo);
+                    $(obj).find('ul').append(liTemp);
+                });
+                if (j > 0) {
+                    $(obj).find('.snList').show();
+                }
+            },
+            error: function () {
+            }
+        });
+        
+    }
+</script>
+
+                <div class="footer">
+                    <div class="fl"><span class="fontOrange">客服热线：400-855-1002</span> 产品网站：<a href="http://www.joyinwise.com" class="font999" target="_blank">http://www.joyinwise.com</a><br />
+                        智慧商贸 V2.9 版权所有: 安徽兆尹信息科技有限责任公司 Copyright © 2011-2014 All Rights Reserved</div>
+                    <div class="fr">
+                        <img src="../../Content/themes/default/images/qrhome.png" width="157" height="54" />
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            eval("");
+            parent.$("#divLoading").hide();
+            var errMsg = $(".validation-summary-errors").text();
+            if (errMsg) {
+                Dialog.alert(errMsg);
+            }
+        });
+
+        function AjaxStart() {
+            parent.$("#divLoading").show();
+        }
+        function AjaxStop() {
+            parent.$("#divLoading").hide();
+        }
+
+    </script>
+    <script type="text/javascript">
+        function OpenQuickForm(vwidth, vheight, vpos, vsrc) {
+            $("#divQuickForm iframe").css("width", vwidth);
+            $("#divQuickForm iframe").css("height", vheight);
+            $("#divQuickForm iframe").attr("src", vsrc);
+            $("#divQuickForm").css("right", vpos);
+            $("#divQuickForm").show();
+        }
+
+        function CloseQuickForm() {
+            $("#divQuickForm").hide();
+        }
+
+        $(function () {
+            $("li a").click(function () {
+                if (typeof ($(this).find("span[name='navspan']").attr("class")) != "undefined") {
+                    $("span[name='spanDt']").hide();
+                    $("span[name='navspan']").attr("class", "plus");
+                    $("#dt_" + $(this).attr("index")).show();
+                    $(this).find("span[name='navspan']").attr("class", "short");
+                }
+            });
+            //头部当前选中的ID
+            var firstCurrentId = $(".menuRS").attr("index");
+            //左边菜单当前选中的ID
+            var currentId = $("li .nav2S a").attr("id");
+
+            if (firstCurrentId) {
+                //左边当前选中样式
+                $("div.create_menu").hide();
+                $("#secMenu_" + $("#" + firstCurrentId).attr("index")).show();
+            }
+            if (currentId) {
+                //头部当前选中样式
+                $(".menuRS").attr("class", "menuR");
+                $("#firstRes_" + currentId.split('_')[1]).parent().attr("class", "menuRS");
+                //左边当前选中菜单   
+                $(".nav1S").attr("class", "nav1");
+                $("#nav" + currentId.split('_')[2]).attr("class", "nav1S");
+
+                //左边收起其他菜单 
+                $("#dt_" + currentId.split('_')[2]).show();
+                $("#dt_" + currentId.split('_')[2]).parent().find("span[name='navspan']").attr("class", "short");
+
+                //当前位置
+                //$("#curPos").html($("li .current").attr("pos"));
+                var curObj = $("li .current");
+                if (curObj.length == 2) {
+                    $("#curPos").html($(curObj[1]).attr("pos"));
+                } else {
+                    $("#curPos").html($(curObj[0]).attr("pos"));
+                }
+            }
+        });
+
+        function exLeft() {
+            if ($(".nav").is(":visible")) {
+                $(".nav").hide();
+                $(".navBg").attr("width", "10");
+                $(".hiddenNav").attr("class", "hiddenNav2");
+            }
+            else {
+                $(".nav").show();
+                $(".navBg").attr("width", "225");
+                $(".hiddenNav2").attr("class", "hiddenNav");
+            }
+        }
+
+        function outLeft() {
+            $(".nav").show();
+            $(".navBg").attr("width", "225");
+            $(".hiddenNav2").attr("class", "hiddenNav");
+        }
+    </script>
+    <div style="display:none">
+    <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        //document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F21bfb059bc18ae42be9caea3a8b358ca' type='text/javascript'%3E%3C/script%3E"));
+    </script></div>
+</body>
+</html>
+<script type="text/javascript">
+    var _controller = "StoreReserve";
+    var _action = "Add";
+    var _url = decodeURI("http://joyinwise.com/StoreReserve/Add?IsPrint=0&amp;IsReturnUrl=2&amp;TakBillId=33799ed4-1317-4f2e-93c1-32f17904e66d");
+    var _source = decodeURI("http://joyinwise.com/StoreReserve/Add");
+    $.ajax({
+        type: "GET",
+        url: "/behavior/log?" + Math.random(),
+        data: "control=" + _controller + "&action=" + _action + "&url=" + _url + "&source=" + _source
+    });
+</script>

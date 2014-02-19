@@ -1,0 +1,491 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>智慧商贸
+编辑员工信息    </title>
+    <script src="/Content/jquery-easyui/jquery-1.7.2.min.js?v2.9.5" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="/Content/themes/default/css/style.css?v2.9.5" />
+    <link rel="stylesheet" type="text/css" href="/Content/jquery-easyui/themes/default/easyui.css?v2.9.5" />
+    <link rel="stylesheet" type="text/css" href="/Content/jquery-easyui/themes/icon.css?v2.9.5" />
+    <script src="/Scripts/jquery.validate-1.11.1.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/jquery.validate.unobtrusive.min.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/modernizr-1.7.min.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Content/My97DatePicker/WdatePicker.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/PropertyManager.js?v2.9.5" type="text/javascript"></script> 
+    <script src="/Scripts/SelectProducts.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/GetState.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Content/jquery-easyui/jquery.easyui.min.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/PERM.js?2013?v2.9.5" type="text/javascript"></script>
+    <script type="text/javascript" src="/Scripts/jquery.unobtrusive-ajax.min.js?v2.9.5"></script>
+    <script src="/Scripts/MVCPage.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/jquery_validator_message_cn.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/PageLoading.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/ChinesePY.js?v2.9.5" type="text/javascript"></script> 
+    <!--PNG透明-->
+    <!--[if lte IE 6]>
+    <script src="/Scripts/DD_belatedPNG_0.0.8a.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            DD_belatedPNG.fix('*');
+        </script>
+    <![endif]-->
+</head>
+<body>
+    <div id="loading"></div>
+    <table style="min-width: 882px;" width="100%" border="0" height="610" cellspacing="0" cellpadding="0">
+        <tr>
+            <td valign="top" bgcolor="#e6e6e8" class="main">
+                <script type="text/javascript">
+    var sucFlag = requestUrlPara("isToList");
+    if (sucFlag == 1) {
+        parent.childAddTab('员工管理', '/User/List', '系统设置');
+    }
+</script>
+<form action="/User/Add" method="post"><input data-val="true" data-val-required="The UserId field is required." id="UserId" name="UserId" type="hidden" value="18cb32bc-f5dd-4704-870b-26bbad60006e" /><input data-val="true" data-val-number="字段 IsActive 必须是一个数字。" data-val-required="The IsActive field is required." id="IsActive" name="IsActive" type="hidden" value="1" /><input data-val="true" data-val-number="字段 IsRoot 必须是一个数字。" id="IsRoot" name="IsRoot" type="hidden" value="1" />    <input type="hidden" id="hidUserPhone" value="18991191966" />
+    <input type="hidden" id="hidUserEmail" value="" />
+    <div class="buttonArea">
+        <div class="right">
+            <a class="button greenButton" onclick="parent.childAddTab('员工管理','/User/List','系统设置')">返回列表</a>
+        </div>
+    </div>
+    <div class="clear height10"></div>
+    <div class="shadowBoxWhite wf100 whiteBox">
+
+            <div class="title">编辑员工</div>
+
+
+        <div class="text">
+            <table width="100%" border="0" cellspacing="0" cellpadding="8">
+                <tr>
+                    <td width="100" align="right" class="font14">
+                        用户名
+                    </td>
+                    <td align="left" width="300">
+                        <input class="inputText wf100" id="UserLoginName" name="UserLoginName" onchange="ValidateUserName()" type="text" value="" />
+                    </td>
+                    <td align="left" class="font999" width="150">(用户名必须为字母或字母与数字的组合)</td>
+                    <td width="100" align="right" class="font14">手机号码
+                    </td>
+                    <td align="left" width="300">
+                        <input class="inputText wf100" data-val="true" data-val-length="手机号码格式不正确" data-val-length-max="11" data-val-length-min="11" data-val-regex="手机号码格式不正确。" data-val-regex-pattern="^13\d{9}$|^14\d{9}$|^15\d{9}$|^18\d{9}$" id="UserPhone" name="UserPhone" onchange="userPhone()" type="text" value="18991191966" />
+
+                    </td>
+                    <td align="left" class="font999" id="tdphone">
+                            <span>
+                                <div class="repaymentCheck" style="cursor: default;"></div>
+                                已验证</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="100" align="right" class="font14"><font color="red">*</font>员工姓名
+                    </td>
+                    <td align="left" width="300">
+                        <input class="inputText wf100" data-val="true" data-val-length="超过最大长度。" data-val-length-max="20" data-val-required="请输入员工姓名" id="UserName" name="UserName" type="text" value="管理员" />
+                    </td>
+                    <td align="left" class="font999"><span class="field-validation-valid" data-valmsg-for="UserName" data-valmsg-replace="true"></span></td>
+                    
+                    <td width="100" align="right" class="font14">邮箱
+                    </td>
+                    <td align="left" width="300">
+                        <input class="inputText wf100" data-val="true" data-val-length="超过最大长度。" data-val-length-max="50" data-val-regex="邮箱格式不正确。" data-val-regex-pattern="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" id="UserEmail" name="UserEmail" onchange="userEmail()" type="text" value="" />
+                    </td>
+                    <td align="left" class="font999" id="tdemail">
+<span class="field-validation-valid" data-valmsg-for="UserEmail" data-valmsg-replace="true"></span>                    </td>
+                </tr>
+                <tr>
+                    
+                    <td width="100" align="right" class="font14"><font color="red">*</font>性别
+                    </td>
+                    <td align="left" width="300">
+                        <select class="DropDown1 w90" data-val="true" data-val-number="字段 UserSex 必须是一个数字。" data-val-required="请选择性别。" id="UserSex" name="UserSex"><option value="0">男</option>
+<option value="1">女</option>
+</select>
+
+                    </td>
+                    <td align="left" class="font999"><span class="field-validation-valid" data-valmsg-for="UserSex" data-valmsg-replace="true"></span></td>
+                    <td width="100" align="right" class="font14">地址
+                    </td>
+                    <td align="left" width="300">
+                        <input class="inputText wf100" data-val="true" data-val-length="超过最大长度。" data-val-length-max="100" id="Address" name="Address" type="text" value="" />
+                    </td>
+                    <td align="left" class="font999"><span class="field-validation-valid" data-valmsg-for="Address" data-valmsg-replace="true"></span></td>
+                </tr>
+                <tr>
+                    <td width="100" align="right" class="font14"><font color="red">*</font>登录密码
+                    </td>
+                    <td align="left" width="300">
+                        <input autocomplete="off" class="inputText wf100" data-val="true" data-val-length="登录密码长度必须为6-20个字符" data-val-length-max="20" data-val-length-min="6" data-val-required="请输入登录密码" id="UserPassword" name="UserPassword" type="password" value="18991191966" />
+
+                    </td>
+                    <td align="left" class="font999"><span class="field-validation-valid" data-valmsg-for="UserPassword" data-valmsg-replace="true"></span></td>
+                    <td width="100" align="right" class="font14">状态
+                    </td>
+                    <td align="left" width="300">
+<select class="DropDown1 w90" data-val="true" data-val-number="字段 UserStatus 必须是一个数字。" data-val-required="请选择用户状态。" disabled="disabled" id="UserStatus" name="UserStatus"><option selected="selected" value="0">正常</option>
+<option value="1">锁定</option>
+</select><input id="UserStatus" name="UserStatus" type="hidden" value="0" />
+                    </td>
+                    <td align="left" class="font999"><span class="field-validation-valid" data-valmsg-for="UserStatus" data-valmsg-replace="true"></span></td>
+                    
+                </tr>
+                
+                <tr>
+                    <td width="100" align="right" class="font14"><font color="red">*</font>确认密码
+                    </td>
+                    <td align="left" width="300">
+                        <input class="inputText wf100" data-val="true" data-val-equalto="确认密码不一致" data-val-equalto-other="*.UserPassword" data-val-required="请输入确认密码" id="ConfirmUserPassword" name="ConfirmUserPassword" type="password" value="18991191966" />
+
+                    </td>
+                    <td align="left" class="font999"><span class="field-validation-valid" data-valmsg-for="ConfirmUserPassword" data-valmsg-replace="true"></span></td>
+                </tr>
+            </table>
+            <br />
+            <table width="100%">
+                <tr>
+                    <td align="center">
+                        <a class="button blueButton" onclick="SaveDate()">提交</a>
+                    </td>
+                    <td width="20">&nbsp;</td>
+                    <td align="left"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</form><script type="text/javascript">
+    $(document).ready(function () {
+        //截取空格
+        String.prototype.trim = function () {
+            return this.replace(/(^\s*)|(\s*$)/g, '');
+        };
+    });
+    function SaveDate() {
+        if ($("#UserPhone").val().trim() != "" && !validateUsephoneRepeat()) {
+            Dialog.alert("手机号已经被使用，请重新输入。");
+            return;
+        }
+        if ($("#UserEmail").val().trim() != "" && !validateUseemailRepeat()) {
+            Dialog.alert("邮箱已经被使用，请重新输入。");
+            return;
+        }
+        if (!ValidateUserName()) {
+            return;
+        }
+        $('form').submit();
+    }
+    //手机号重复验证
+    function validateUsephoneRepeat() {
+        var result = false;
+        //判断商户名
+        var UserPhone = $("#UserPhone").val().trim();
+        var userId = $("#UserId").val().trim();
+        $.ajax(
+             {
+                 dataType: "json",
+                 data:
+                     {
+                         userId: userId,
+                         UserPhone: UserPhone
+                     },
+                 url: "/User/ValidateUserPhoneRepeat",
+                 cache: false,
+                 type: "post",
+                 async: false,
+                 success: function (o) {
+                     if (o == "1") {
+                         result = true;
+                     }
+                     else {;
+                         result = false;
+                     }
+                 },
+                 error: function () {
+                     result = false;
+                 }
+             });
+        return result;
+    }
+    //邮箱重复验证
+    function validateUseemailRepeat() {
+        var result = false;
+        //判断商户名
+        var UserEmail = $("#UserEmail").val().trim();
+        var userId = $("#UserId").val().trim();
+        $.ajax(
+             {
+                 dataType: "json",
+                 data:
+                     {
+                         userId: userId,
+                         UserEmail: UserEmail
+                     },
+                 url: "/User/ValidateUserEmailRepeat",
+                 cache: false,
+                 type: "post",
+                 async: false,
+                 success: function (o) {
+                     if (o == "1") {
+                         result = true;
+                     }
+                     else {;
+                         result = false;
+                     }
+                 },
+                 error: function () {
+                     result = false;
+                 }
+             });
+        return result;
+    }
+    function userPhone() {
+        if (!checkMobile($("#UserPhone").val())) {
+            ChangePhoneRight(0);
+            return;
+        }
+        else if (!validateUsephoneRepeat()) {
+            Dialog.alert("手机号已经被使用，请重新输入。");
+            ChangePhoneRight(0);
+            return;
+        }
+        else {
+            ChangePhoneRight(1);
+        }
+    }
+    function userEmail() {
+        if (!RegcheckEmail($("#UserEmail").val())) {
+            ChangeEmailRight(0);
+            return;
+        }
+        else if (!validateUseemailRepeat()) {
+            Dialog.alert("邮箱已经被使用，请重新输入。");
+            ChangeEmailRight(0);
+            return;
+        }
+        else {
+            ChangeEmailRight(1);
+        }
+    }
+    function ChangePhoneRight(flat) {
+        //0:正则验证未通过；1：验证 2：验证通过
+        var active = "1";
+        if ($("#UserPhone").val() == $("#hidUserPhone").val() && (active == 1 || active == 3)) {
+            $("#tdphone").html("<div class=\"repaymentCheck\"></div> 已验证");
+        }
+        else {
+            if (flat == 1) {
+                $("#tdphone").html("<a href=\"javascript:;\" onclick=\"openTool('绑定手机','1')\" class=\"repayment\">立即验证<div class=\"repayTips\" style=\"width:90px; margin-left:0px;\">验证成功后您将可以使用此号码作为您的登录名</div></a>");
+            }
+            else if (flat == 2) {
+                $("#tdphone").html("<div class=\"repaymentCheck\"></div> 已验证");
+            }
+            else {
+                $("#tdphone").html("<span class=\"field-validation-valid\" data-valmsg-for=\"UserPhone\" data-valmsg-replace=\"true\"></span>");
+            }
+        }
+    }
+    function ChangeEmailRight(flat) {
+        //0:正则验证未通过；1：验证 2：验证通过
+        var active = "1";
+        if ($("#UserEmail").val() == $("#hidUserEmail").val && (active == 2 || active == 3)) {
+            $("#tdemail").html("<div class=\"repaymentCheck\"></div> 已验证");
+        }
+        else {
+            if (flat == 1) {
+                $("#tdemail").html("<a href=\"javascript:;\" onclick =\"openTool('绑定邮箱','2')\" class=\"repayment\">立即验证<div class=\"repayTips\" style=\"width:90px; margin-left:0px;\">验证成功后您将可以使用此号码作为您的登录名</div></a>");
+            }
+            else if (flat == 2) {
+                $("#tdemail").html("<div class=\"repaymentCheck\"></div> 已验证");
+            }
+            else {
+                $("#tdemail").html("<span class=\"field-validation-valid\" data-valmsg-for=\"UserEmail\" data-valmsg-replace=\"true\"></span>");
+            }
+        }
+    }
+    function checkMobile(phone) {
+        if (/^13\d{9}$|^14\d{9}$|^15\d{9}$|^18\d{9}$/.test(phone)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function openTool(name, type) {
+        var para = "";
+        if (type == "1") {
+            para = "dh=" + $("#UserPhone").val();
+        }
+        else {
+            para = "yx=" + $("#UserEmail").val();
+        }
+        parent.$('#openActiveDiv').dialog({
+            title: name,
+            width: 880,
+            height: 420,
+            closed: false,
+            cache: false,
+            modal: true,
+            maximizable: false,
+            resizable: false
+        });
+        parent.$('#openActiveIframe')[0].src = "/ActiveUser/ActiveSetting?" + para;
+        parent.$('#openActiveDiv').dialog('open');
+    }
+
+    function ValidateUserName() {
+        var isroot = "1";
+        var username = $("#UserLoginName").val().trim();
+        if (isroot != 1 && username == "") {
+            Dialog.alert("请输入用户名");
+            return false;
+        }
+        if (username != "") {
+            if (checkMobile(username)) {
+                Dialog.alert("用户名不能为手机号");
+                return false;
+            }
+            if (RegcheckEmail(username)) {
+                Dialog.alert("用户名不能为邮箱");
+                return false;
+            }
+            if (username.length > 20 || username.length < 6) {
+                Dialog.alert("用户名必须为6-20个字符");
+                return false;
+            }
+            if (!checkUserName(username)) {
+                Dialog.alert("用户名必须为字母和数字的组合，不能全部为数字");
+                return false;
+            }
+        }
+        return true;
+    }
+    function checkUserName(name) {
+        if (/^\w*[a-zA-Z]+\w*$/.test(name)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+
+                <div class="footer">
+                    <div class="fl"><span class="fontOrange">客服热线：400-855-1002</span> 产品网站：<a href="http://www.joyinwise.com" class="font999" target="_blank">http://www.joyinwise.com</a><br />
+                        智慧商贸 V2.9 版权所有: 安徽兆尹信息科技有限责任公司 Copyright © 2011-2014 All Rights Reserved</div>
+                    <div class="fr">
+                        <img src="../../Content/themes/default/images/qrhome.png" width="157" height="54" />
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            eval("");
+            parent.$("#divLoading").hide();
+            var errMsg = $(".validation-summary-errors").text();
+            if (errMsg) {
+                Dialog.alert(errMsg);
+            }
+        });
+
+        function AjaxStart() {
+            parent.$("#divLoading").show();
+        }
+        function AjaxStop() {
+            parent.$("#divLoading").hide();
+        }
+
+    </script>
+    <script type="text/javascript">
+        function OpenQuickForm(vwidth, vheight, vpos, vsrc) {
+            $("#divQuickForm iframe").css("width", vwidth);
+            $("#divQuickForm iframe").css("height", vheight);
+            $("#divQuickForm iframe").attr("src", vsrc);
+            $("#divQuickForm").css("right", vpos);
+            $("#divQuickForm").show();
+        }
+
+        function CloseQuickForm() {
+            $("#divQuickForm").hide();
+        }
+
+        $(function () {
+            $("li a").click(function () {
+                if (typeof ($(this).find("span[name='navspan']").attr("class")) != "undefined") {
+                    $("span[name='spanDt']").hide();
+                    $("span[name='navspan']").attr("class", "plus");
+                    $("#dt_" + $(this).attr("index")).show();
+                    $(this).find("span[name='navspan']").attr("class", "short");
+                }
+            });
+            //头部当前选中的ID
+            var firstCurrentId = $(".menuRS").attr("index");
+            //左边菜单当前选中的ID
+            var currentId = $("li .nav2S a").attr("id");
+
+            if (firstCurrentId) {
+                //左边当前选中样式
+                $("div.create_menu").hide();
+                $("#secMenu_" + $("#" + firstCurrentId).attr("index")).show();
+            }
+            if (currentId) {
+                //头部当前选中样式
+                $(".menuRS").attr("class", "menuR");
+                $("#firstRes_" + currentId.split('_')[1]).parent().attr("class", "menuRS");
+                //左边当前选中菜单   
+                $(".nav1S").attr("class", "nav1");
+                $("#nav" + currentId.split('_')[2]).attr("class", "nav1S");
+
+                //左边收起其他菜单 
+                $("#dt_" + currentId.split('_')[2]).show();
+                $("#dt_" + currentId.split('_')[2]).parent().find("span[name='navspan']").attr("class", "short");
+
+                //当前位置
+                //$("#curPos").html($("li .current").attr("pos"));
+                var curObj = $("li .current");
+                if (curObj.length == 2) {
+                    $("#curPos").html($(curObj[1]).attr("pos"));
+                } else {
+                    $("#curPos").html($(curObj[0]).attr("pos"));
+                }
+            }
+        });
+
+        function exLeft() {
+            if ($(".nav").is(":visible")) {
+                $(".nav").hide();
+                $(".navBg").attr("width", "10");
+                $(".hiddenNav").attr("class", "hiddenNav2");
+            }
+            else {
+                $(".nav").show();
+                $(".navBg").attr("width", "225");
+                $(".hiddenNav2").attr("class", "hiddenNav");
+            }
+        }
+
+        function outLeft() {
+            $(".nav").show();
+            $(".navBg").attr("width", "225");
+            $(".hiddenNav2").attr("class", "hiddenNav");
+        }
+    </script>
+    <div style="display:none">
+    <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        //document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F21bfb059bc18ae42be9caea3a8b358ca' type='text/javascript'%3E%3C/script%3E"));
+    </script></div>
+</body>
+</html>
+<script type="text/javascript">
+    var _controller = "User";
+    var _action = "Edit";
+    var _url = decodeURI("http://joyinwise.com/User/Edit?UserId=18cb32bc-f5dd-4704-870b-26bbad60006e");
+    var _source = decodeURI("http://joyinwise.com/HomePage/Welcome");
+    $.ajax({
+        type: "GET",
+        url: "/behavior/log?" + Math.random(),
+        data: "control=" + _controller + "&action=" + _action + "&url=" + _url + "&source=" + _source
+    });
+</script>

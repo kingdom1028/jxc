@@ -1,0 +1,428 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>智慧商贸
+库存状况统计-时间轴    </title>
+    <script src="/Content/jquery-easyui/jquery-1.7.2.min.js?v2.9.5" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="/Content/themes/default/css/style.css?v2.9.5" />
+    <link rel="stylesheet" type="text/css" href="/Content/jquery-easyui/themes/default/easyui.css?v2.9.5" />
+    <link rel="stylesheet" type="text/css" href="/Content/jquery-easyui/themes/icon.css?v2.9.5" />
+    <script src="/Scripts/jquery.validate-1.11.1.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/jquery.validate.unobtrusive.min.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/modernizr-1.7.min.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Content/My97DatePicker/WdatePicker.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/PropertyManager.js?v2.9.5" type="text/javascript"></script> 
+    <script src="/Scripts/SelectProducts.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/GetState.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Content/jquery-easyui/jquery.easyui.min.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/PERM.js?2013?v2.9.5" type="text/javascript"></script>
+    <script type="text/javascript" src="/Scripts/jquery.unobtrusive-ajax.min.js?v2.9.5"></script>
+    <script src="/Scripts/MVCPage.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/jquery_validator_message_cn.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/PageLoading.js?v2.9.5" type="text/javascript"></script>
+    <script src="/Scripts/ChinesePY.js?v2.9.5" type="text/javascript"></script> 
+    <!--PNG透明-->
+    <!--[if lte IE 6]>
+    <script src="/Scripts/DD_belatedPNG_0.0.8a.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            DD_belatedPNG.fix('*');
+        </script>
+    <![endif]-->
+</head>
+<body>
+    <div id="loading"></div>
+    <table style="min-width: 882px;" width="100%" border="0" height="610" cellspacing="0" cellpadding="0">
+        <tr>
+            <td valign="top" bgcolor="#e6e6e8" class="main">
+                <input id="CurProductId" name="CurProductId" type="hidden" value="bb6380f2-4558-4c38-a403-eefbd352a4ea" />
+<div class="buttonArea">
+    <div class="left">
+        <div class="font16 wellcome fl">连杆瓦/
+            <span class=" fontBlue">[10.00 组]</span>
+        </div>
+    </div>
+    <!-- left -->
+    <div class="right">
+        <span class="fl">显示方式</span>
+        <div class="displayMode"><a class="DMlist" title="列表" onclick="showDetail()"></a><span>|</span><a class="DMchartS" title="图表"></a></div>
+        
+    </div>
+    <!-- right -->
+</div>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="500">
+    <tr>
+        <td valign="top">
+            <div class="clear height10"></div>
+            <div class="shadowBoxWhite wf100 fl">
+                <br />
+                <div class="DMchartContent">
+                    <div class="DMchartConentIn">
+                        <div class="nowStrock">
+                            <div class="num font24">10.00</div>
+                            <div class="unit">组</div>
+                        </div>
+                        <div class="list">
+                        </div>
+
+                    </div>
+                    <div class="nodata"></div>
+                </div>
+                <!--DMchartContent -->
+            </div>
+
+        </td>
+        <td width="315" valign="top">
+            <div class="clear height10"></div>
+            <div class=" contactUs shadowBoxWhite" style="height: auto;">
+                <div class="title">商品详细</div>
+                <div class="text">
+                    <table width="100%" border="0" cellspacing="5" cellpadding="5">
+                        <tr>
+                            <td width="80" align="right" valign="top" class="font14 font999">商品名称：</td>
+                            <td valign="top" class="font14 font333">连杆瓦</td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="top" class="font14 font999">商品编号： </td>
+                            <td valign="top" class="font14 font333">10011</td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="top" class="font14 font999">商品单位：</td>
+                            <td valign="top" class="font14 font333">组</td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="top" class="font14 font999">商品规格：</td>
+                            <td valign="top" class="font14 font333"></td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="top" class="font14 font999">参考售价：</td>
+                            <td valign="top" class="font14 font333"></td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="top" class="font14 font999">最低售价：</td>
+                            <td valign="top" class="font14 font333"></td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="top" class="font14 font999">最低库存：</td>
+                            <td valign="top" class="font14 font333"></td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="top" class="font14 font999">最高库存：</td>
+                            <td valign="top" class="font14 font333"></td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="top" class="font14 font999">商品条码：</td>
+                            <td valign="top" class="font14 font333"></td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="top" class="font14 font999">商品状态：</td>
+                            <td valign="top" class="font14 font333">正常</td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="top" class="font14 font999">备注信息：</td>
+                            <td valign="top" class="font14 font333"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <!-- quickAdd -->
+        </td>
+    </tr>
+</table>
+
+<script type="text/javascript">
+    $(function () {
+        var winH = $(window).height(); //页面可视区域高度 
+        var i = 1; //设置当前页数 
+        $.ajax({
+            dataType: "json",
+            data: {
+                page: i,
+                CurProductId: $("#CurProductId").val(),
+                WarehouseId: "00000000-0000-0000-0000-000000000000"
+            },
+            url: "/ReportStoreSituation/QueryDetailList/",
+            cache: false,
+            type: "post",
+            async: false,
+            success: function (data) {
+                if (data.Data.length > 0) {
+                    AppendContent(data.Data);
+                    i++;
+                }
+                else {
+                    $(".nodata").show().html("已经到底了");
+                    return false;
+                }
+            },
+            error: function () {
+            }
+        });
+        $(window).scroll(function () {
+            var pageH = $(document.body).height();
+            var scrollT = $(window).scrollTop(); //滚动条top 
+            var aa = (pageH - winH - scrollT) / winH;
+            if (aa < 0.02) {
+                $.ajax({
+                    dataType: "json",
+                    data: {
+                        page: i,
+                        CurProductId: $("#CurProductId").val()
+                    },
+                    url: "/ReportStoreSituation/QueryDetailList/",
+                    cache: false,
+                    type: "post",
+                    async: false,
+                    success: function (data) {
+                        if (data.Data.length > 0) {
+                            AppendContent(data.Data);
+                            i++;
+                        }
+                        else {
+                            $(".nodata").show().html("已经到底了");
+                            return false;
+                        }
+                    },
+                    error: function () {
+                        Dialog.alert("属性值加载失败");
+                    }
+                });
+            }
+        });
+    });
+    function AppendContent(tempJson) {
+        var warehouseId = "00000000-0000-0000-0000-000000000000";
+        var m = 0;
+        for (var i = 0; i < tempJson.length; i++) {
+            var str = "";
+            if (tempJson[i]["BuinessCount"] >= 0 && m == 0) {
+                str = "<div class=\"strockPlus one\">";
+                m = 1;
+            }
+            else if (tempJson[i]["BuinessCount"] >= 0 && m == 1) {
+                str = "<div class=\"strockPlus two\">";
+                m = 0;
+            }
+            else if (tempJson[i]["BuinessCount"] < 0 && m == 0) {
+                str = "<div class=\"strockShort one\">";
+                m = 1;
+            }
+            else {
+                str = "<div class=\"strockShort two\">";
+                m = 0;
+            }
+            str += "<div class=\"strockArrow\">";
+            str += "<div class=\"icon\"></div>";
+            str += "<div class=\"arrow\"></div>";
+            str += "</div>";
+            str += "<div class=\"strockText\">";
+            str += "<div class=\"strockData\">&nbsp;" + tempJson[i]["BuinessDateStr"] + "</div>";
+            str += "<div class=\"content\">";
+            str += "<div>" + tempJson[i]["BuinessCode"] + "</div>";
+
+            switch (Number(tempJson[i]["BuinessType"])) {
+                case 0:
+                    str += "<div><span>期初库存：</span><span class=\"font16 fontBlue\">" + tempJson[i]["BuinessCountStr"] + "</span></div>";
+                    break; 
+                default:
+                    str += "<div><span>数量：</span><span class=\"font16 fontBlue\">" + tempJson[i]["BuinessCountStr"] + "</span></div>";
+                    str += "<div><span>单价：</span><span>￥" + tempJson[i]["BuinessPriceStr"] + "</span></div>";
+                    str += "<div><span>总价：</span><span>￥" + tempJson[i]["BuinessAmountStr"] + "</span></div>";
+                    break;
+
+            }
+            if (warehouseId == "00000000-0000-0000-0000-000000000000") {
+                str += "<div><span>仓库：</span><span>" + tempJson[i]["WarehouseSimpleName"] + "</span></div>"
+            }
+            if (tempJson[i]["BuinessType"] != "0") {
+                str += "<div align=\"center\"><a class=\"button\" onclick=\"ShowBillDetail(" + tempJson[i]["BuinessType"] + ",'" + tempJson[i]["BuinessId"] + "')\">单据详情</a></div>";
+            }
+            str += " </div>";
+            str += "</div>";
+            str += "</div>";
+            $(".list").append(str);
+        }
+    }
+    // 显示明细
+    function showDetail() {
+        var pid = $("#CurProductId").val();
+        if (pid == "") return;
+        window.location.href = '/ReportStoreSituation/Detail?CurProductId=' + pid + "&WarehouseId=" + "00000000-0000-0000-0000-000000000000" + "&WarehouseSimpleName=" + escape("");
+    }
+
+    //function ShowBillDetail(name, url) {
+    //    parent.childAddTab(name, url, '慧管货')
+    //}
+
+
+
+    //0=期初，1=进货，2=进货退货，3=销售，4=销售退货，5=盘点，6=组装拆卸,7=调拨,8=借入,9=借出,10=借入归还,11=借出归还,12=借出转销售,13=借入转进货
+    function ShowBillDetail(busiType, busiId) {
+        switch (busiType) {
+            case 1:
+                parent.childAddTab("进货单据明细", "/Buy/Edit?BuyId=" + busiId, '慧管货');
+                break;
+            case 2:
+                parent.childAddTab("进货退货单据明细", "/BuyReturn/Edit?ReturnId=" + busiId, '慧管货');
+                break;
+            case 3:
+                parent.childAddTab("销售单据明细", "/Sale/Edit?SaleId=" + busiId, '慧管货');
+                break;
+            case 4:
+                parent.childAddTab("销售退货单据明细", "/SaleReturn/Edit?ReturnId=" + busiId, '慧管货');
+                break;
+            case 5:
+                parent.childAddTab("历史盘点单", "/StoreReserve/Edit?TakBillId=" + busiId, '慧管货');
+                break;
+            case 6:
+                parent.childAddTab("组装拆卸单据明细", "/Assembly/Detail?id=" + busiId, '慧管货');
+                break;
+            case 7:
+                parent.childAddTab("调拨明细", "/Transfer/Edit?TranId=" + busiId, '慧管货');
+                break;
+            case 8:
+                parent.childAddTab("借入明细", "/Borrow/Edit?LendId=" + busiId, '慧管货');
+                break;
+            case 9:
+                parent.childAddTab("借出明细", "/Lend/Edit?LendId=" + busiId, '慧管货');
+                break;
+            case 10:
+                parent.childAddTab("借入归还明细", "/Borrow/ReturnEdit?ReturnId=" + busiId, '慧管货');
+                break;
+            case 11:
+                parent.childAddTab("借出归还明细", "/Lend/ReturnEdit?ReturnId=" + busiId, '慧管货');
+                break;
+            case 12:
+                parent.childAddTab("借出转销售明细", "/Sale/Edit?SaleId=" + busiId, '慧管货');
+                break;
+            case 13:
+                parent.childAddTab("借入转进货明细", "/Buy/Edit?BuyId=" + busiId, '慧管货');
+                break;
+            default:
+
+        }
+    }
+</script>
+
+                <div class="footer">
+                    <div class="fl"><span class="fontOrange">客服热线：400-855-1002</span> 产品网站：<a href="http://www.joyinwise.com" class="font999" target="_blank">http://www.joyinwise.com</a><br />
+                        智慧商贸 V2.9 版权所有: 安徽兆尹信息科技有限责任公司 Copyright © 2011-2014 All Rights Reserved</div>
+                    <div class="fr">
+                        <img src="../../Content/themes/default/images/qrhome.png" width="157" height="54" />
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            eval("");
+            parent.$("#divLoading").hide();
+            var errMsg = $(".validation-summary-errors").text();
+            if (errMsg) {
+                Dialog.alert(errMsg);
+            }
+        });
+
+        function AjaxStart() {
+            parent.$("#divLoading").show();
+        }
+        function AjaxStop() {
+            parent.$("#divLoading").hide();
+        }
+
+    </script>
+    <script type="text/javascript">
+        function OpenQuickForm(vwidth, vheight, vpos, vsrc) {
+            $("#divQuickForm iframe").css("width", vwidth);
+            $("#divQuickForm iframe").css("height", vheight);
+            $("#divQuickForm iframe").attr("src", vsrc);
+            $("#divQuickForm").css("right", vpos);
+            $("#divQuickForm").show();
+        }
+
+        function CloseQuickForm() {
+            $("#divQuickForm").hide();
+        }
+
+        $(function () {
+            $("li a").click(function () {
+                if (typeof ($(this).find("span[name='navspan']").attr("class")) != "undefined") {
+                    $("span[name='spanDt']").hide();
+                    $("span[name='navspan']").attr("class", "plus");
+                    $("#dt_" + $(this).attr("index")).show();
+                    $(this).find("span[name='navspan']").attr("class", "short");
+                }
+            });
+            //头部当前选中的ID
+            var firstCurrentId = $(".menuRS").attr("index");
+            //左边菜单当前选中的ID
+            var currentId = $("li .nav2S a").attr("id");
+
+            if (firstCurrentId) {
+                //左边当前选中样式
+                $("div.create_menu").hide();
+                $("#secMenu_" + $("#" + firstCurrentId).attr("index")).show();
+            }
+            if (currentId) {
+                //头部当前选中样式
+                $(".menuRS").attr("class", "menuR");
+                $("#firstRes_" + currentId.split('_')[1]).parent().attr("class", "menuRS");
+                //左边当前选中菜单   
+                $(".nav1S").attr("class", "nav1");
+                $("#nav" + currentId.split('_')[2]).attr("class", "nav1S");
+
+                //左边收起其他菜单 
+                $("#dt_" + currentId.split('_')[2]).show();
+                $("#dt_" + currentId.split('_')[2]).parent().find("span[name='navspan']").attr("class", "short");
+
+                //当前位置
+                //$("#curPos").html($("li .current").attr("pos"));
+                var curObj = $("li .current");
+                if (curObj.length == 2) {
+                    $("#curPos").html($(curObj[1]).attr("pos"));
+                } else {
+                    $("#curPos").html($(curObj[0]).attr("pos"));
+                }
+            }
+        });
+
+        function exLeft() {
+            if ($(".nav").is(":visible")) {
+                $(".nav").hide();
+                $(".navBg").attr("width", "10");
+                $(".hiddenNav").attr("class", "hiddenNav2");
+            }
+            else {
+                $(".nav").show();
+                $(".navBg").attr("width", "225");
+                $(".hiddenNav2").attr("class", "hiddenNav");
+            }
+        }
+
+        function outLeft() {
+            $(".nav").show();
+            $(".navBg").attr("width", "225");
+            $(".hiddenNav2").attr("class", "hiddenNav");
+        }
+    </script>
+    <div style="display:none">
+    <script type="text/javascript">
+        var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+        //document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F21bfb059bc18ae42be9caea3a8b358ca' type='text/javascript'%3E%3C/script%3E"));
+    </script></div>
+</body>
+</html>
+<script type="text/javascript">
+    var _controller = "ReportStoreSituation";
+    var _action = "TimeLineDetail";
+    var _url = decodeURI("http://joyinwise.com/ReportStoreSituation/TimeLineDetail?CurProductId=bb6380f2-4558-4c38-a403-eefbd352a4ea&amp;WarehouseId=00000000-0000-0000-0000-000000000000&amp;WarehouseSimpleName=");
+    var _source = decodeURI("http://joyinwise.com/ReportStoreSituation/Detail?CurProductId=bb6380f2-4558-4c38-a403-eefbd352a4ea");
+    $.ajax({
+        type: "GET",
+        url: "/behavior/log?" + Math.random(),
+        data: "control=" + _controller + "&action=" + _action + "&url=" + _url + "&source=" + _source
+    });
+</script>
